@@ -1,0 +1,40 @@
+Geometric Functional Analysis & its Applications
+
+Aim of the course: The geometry of convex bodies in high dimensions and correspondly of normed vectors spaces is a beautiful subject
+of study that has fascinated mathematicians for over a hundred years. Questions that have driven the field include: how does measure concentrate in high dimensions? how close is every convex body to an ellipsoid? how much can one improve upon on the triangle inequality? To gain a deep understanding of these questions, still today the subject of very active research, powerful techniques were developed by leveraging surprising connections between geometry, analysis and probability. These have now found numerous applications across mathematics and computer science.
+
+The aim of this course is to both cover the fundamentals of the area as well as selected applications. The first half of the course will examine the geometry of normed spaces, where we will examine important notions of ellipsoidal approximation, including John's theorem and Dvoresky's theorem. We will then analyze sums of Banach space valued random variables and examine the concepts of type and cotype. Embedding into l_2 and l_1 will be discussed. The second half of the course will relate to functional inequalities such as Prekopa-Leindler and Brescamp-Lieb inequalities and their relations to isoperimetric inequalities for convex bodies and logconcave measures. Algorithmic applications will be given to the task of estimating the volume of a convex body. 
+
+Lectures notes / Literature: 
+Weekly lectures notes and exercises will be posted.
+ 
+For some useful resources, see
+
+Asaf Naor. Local Theory of Banach Spaces: 
+https://web.math.princeton.edu/~naor/homepage%20files/localban.pdf
+
+Keith Ball. Introduction to Elementary Convex Geometry:
+http://library.msri.org/books/Book31/files/ball.pdf
+
+Rules about Homework/Exam:
+3x graded homeworks 40%
+1x Final exam 60%
+
+Lecturers:
+
+Daniel Dadush (CWI)
+email: dadush@cwi.nl
+
+Job Briet (CWI)
+email: j.briet@cwi.nl
+
+Prerequisites: 
+
+The main prerequite is mathematical maturity. However, we will assume the students are comfortable with / can quickly pick up the basic concepts in:
+
+1. Linear algebra: vector & dual vector spaces, determinants, gram schmidt orthogonalization, etc.
+
+2. Basic Convexity: duality, separation results, polar of convex sets, norms, etc. 
+
+3. Probability & Probabilistic algorithms: Gaussians, Chernoff bounds, Monte Carlo algorithms, ... e.g. at least chapters 1-4
+   http://www.mscs.dal.ca/~janssen/5340/ToRead/mitzenmacher-upfal.pdf. 
