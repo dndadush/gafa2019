@@ -1,0 +1,88 @@
+\documentclass[11pt]{article}
+
+\usepackage{mathtools}
+\usepackage[sc]{mathpazo}
+\linespread{1.05}         % Palatino needs more leading (space between lines)
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{accents}
+\usepackage{ntheorem}
+\usepackage{latexsym}
+\usepackage{xspace}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage[ruled]{algorithm2e}
+\usepackage{float}
+\usepackage{subfigure}
+\usepackage{color}
+\usepackage{fullpage}
+
+%%%%%%%% THEOREM TYPE ENVIRONMENTS
+\theoremheaderfont{\scshape}
+\theorembodyfont{\slshape}
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\theoremstyle{plain}
+\theorembodyfont{\rmfamily}
+\newtheorem{problem}{Problem}
+\newtheorem{observation}[theorem]{Observation}
+\newtheorem{remark}[theorem]{Remark}
+\theorembodyfont{\itshape}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{assumption}[theorem]{Assumption}
+\newtheorem{claim}[theorem]{Claim}
+\newenvironment{proof}{\noindent {\sc Proof:}}{$\Box$ \medskip}
+\newenvironment{proofof}[1]{\noindent {\sc Proof of #1:}}{$\Box$ \medskip}
+\theoremstyle{plain}
+\theorembodyfont{\normalfont}
+\theoremheaderfont{\normalfont\bfseries}
+\newtheorem{exercise}{Exercise}
+
+%%%%%%% FORMATTING
+\setlength{\topmargin}{-0.5in}
+\setlength{\textwidth}{6.5in} % can be up to 6.5
+\setlength{\textheight}{9in}
+\setlength{\evensidemargin}{-.1in}
+\setlength{\oddsidemargin}{-.1in}
+
+\newcounter{lecnum}
+\definecolor{hintgray}{gray}{0.40}
+\newcommand{\hint}[1]{\textcolor{hintgray}{(Hint:~ #1)}}
+
+\newcommand{\lecture}[3]{%
+\newpage %
+\setcounter{lecnum}{#1}%
+\setcounter{page}{1}%
+
+ \thispagestyle{fancy}
+ \headheight 45pt
+ \lhead{\bf{Mastermath, Spring 2019 \\ Geometric Functional Analysis} \vspace{.5em}\\ \hspace{1em}}
+ \chead{{\Large \bf Lecture #1} \vspace{.5em} \\ \hrule height .5mm \hfill \\ {\bf \Large #2}}
+ \rhead{\bf{Lecturers: D. Dadush, J. Briet \\ Scribe: #3} \vspace{.5em} \\ \hspace{1em}}
+ \renewcommand{\headrulewidth}{1.2pt}
+ \hspace{1em} \vspace{6pt}
+}
+
+%%%%%%%%% MACROS (ADD YOURS HERE)
+\newcommand{\set}[1]{\{{#1}\}}
+\newcommand{\C}{\ensuremath{\mathbb{C}}}
+\newcommand{\R}{\ensuremath{\mathbb{R}}}
+\newcommand{\Z}{\ensuremath{\mathbb{Z}}}
+\newcommand{\pr}[2]{\langle{#1, #2}\rangle}
+\newcommand{\eps}{\varepsilon}
+\renewcommand{\epsilon}{\varepsilon}
+
+\begin{document}
+
+\lecture{1}{Basics of Normed Spaces and the John Ellipsoid}{D. Dadush}
+
+\section{Banach Spaces}
+
+YOINK.
+
+\end{document}

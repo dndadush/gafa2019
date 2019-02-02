@@ -1,0 +1,39 @@
+\input{../headers/basic-doc}
+\input{../headers/basic-macros}
+
+%%%%%%%% FORMATTING
+\newcommand{\homeworkdesc}[2]{%
+ \newpage %
+ \setcounter{lecnum}{#1}%
+ \setcounter{page}{1}%
+
+ \pagestyle{fancy}
+ \headheight 30pt
+ \lhead{\bf{Spring 2019 \\ Geometric Functional Analysis}}
+ \chead{\bf{\large{Homework #1 \\ Due #2}}}
+ \rhead{\bf{D. Dadush, J. Briet \\ Mastermath}}
+ \renewcommand{\headrulewidth}{1.2pt}
+ \setlength{\headsep}{10pt}
+}
+
+\newcommand{\homeworksol}[1]{%
+ \newpage %
+ \setcounter{lecnum}{#1}%
+ \setcounter{page}{1}%
+
+ \pagestyle{fancy}
+ \headheight 30pt
+ \lhead{\bf{Spring 2019 \\ Geometric Functional Analysis}}
+ \chead{\bf{\large{Solutions to \\ Homework #1}}}
+ \rhead{\bf{D. Dadush, J. Briet \\ Mastermath}}
+ \renewcommand{\headrulewidth}{1.2pt}
+ \setlength{\headsep}{10pt}
+}
+
+\newcommand{\solution}[1]{
+\ifsolutions
+\vspace{-3ex}
+\noindent\textbf{Solution:} {\itshape #1}
+\vspace{3ex}
+\fi
+}

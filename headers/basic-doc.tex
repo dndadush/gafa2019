@@ -1,0 +1,55 @@
+\documentclass[11pt]{article}
+
+\usepackage{mathtools}
+\usepackage[sc]{mathpazo}
+\linespread{1.05} % Palatino needs more leading (space between lines)
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{accents}
+\usepackage{ntheorem}
+\usepackage{latexsym}
+\usepackage{xspace}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage[ruled]{algorithm2e}
+\usepackage{float}
+\usepackage{subfigure}
+\usepackage{color}
+\usepackage{fullpage}
+
+%%%%%%%% THEOREM TYPE ENVIRONMENTS
+\theoremheaderfont{\scshape}
+\theorembodyfont{\slshape}
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\theoremstyle{plain}
+\theorembodyfont{\rmfamily}
+\newtheorem{problem}{Problem}
+\newtheorem{observation}[theorem]{Observation}
+\newtheorem{remark}[theorem]{Remark}
+\theorembodyfont{\itshape}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{assumption}[theorem]{Assumption}
+\newtheorem{claim}[theorem]{Claim}
+\newenvironment{proof}{\noindent {\sc Proof:}}{$\Box$ \medskip}
+\newenvironment{proofof}[1]{\noindent {\sc Proof of #1:}}{$\Box$ \medskip}
+\theoremstyle{plain}
+\theorembodyfont{\normalfont}
+\theoremheaderfont{\normalfont\bfseries}
+\newtheorem{exercise}{Exercise}
+
+%%%%%%% FORMATTING
+\setlength{\topmargin}{-0.5in}
+\setlength{\textwidth}{6.5in} % can be up to 6.5
+\setlength{\textheight}{9in}
+\setlength{\evensidemargin}{-.1in}
+\setlength{\oddsidemargin}{-.1in}
+
+\newcounter{lecnum}
+\definecolor{hintgray}{gray}{0.40}
+\newcommand{\hint}[1]{\textcolor{hintgray}{(Hint:~ #1)}}
