@@ -1,0 +1,1313 @@
+\documentclass[11pt]{article}
+
+\usepackage{mathtools}
+\usepackage[sc]{mathpazo}
+\linespread{1.05}         % Palatino needs more leading (space between lines)
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{accents}
+\usepackage{ntheorem}
+\usepackage{latexsym}
+\usepackage{xspace}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage[ruled]{algorithm2e}
+\usepackage{float}
+\usepackage{subfigure}
+\usepackage{color}
+\usepackage{fullpage}
+
+%%%%%%%% THEOREM TYPE ENVIRONMENTS
+\theoremheaderfont{\scshape}
+\theorembodyfont{\slshape}
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\theoremstyle{plain}
+\theorembodyfont{\rmfamily}
+\newtheorem{problem}{Problem}
+\newtheorem{observation}[theorem]{Observation}
+\newtheorem{remark}[theorem]{Remark}
+\theorembodyfont{\itshape}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{assumption}[theorem]{Assumption}
+\newtheorem{claim}[theorem]{Claim}
+\newenvironment{proof}{\noindent {\sc Proof:}}{$\Box$ \medskip}
+\newenvironment{proofof}[1]{\noindent {\sc Proof of #1:}}{$\Box$ \medskip}
+\theoremstyle{plain}
+\theorembodyfont{\normalfont}
+\theoremheaderfont{\normalfont\bfseries}
+\newtheorem{exercise}{Exercise}
+
+%%%%%%% FORMATTING
+\setlength{\topmargin}{-0.5in}
+\setlength{\textwidth}{6.5in} % can be up to 6.5
+\setlength{\textheight}{9in}
+\setlength{\evensidemargin}{-.1in}
+\setlength{\oddsidemargin}{-.1in}
+
+\newcounter{lecnum}
+\definecolor{hintgray}{gray}{0.40}
+\newcommand{\hint}[1]{\textcolor{hintgray}{(Hint:~ #1)}}
+
+\newcommand{\lecture}[3]{%
+\newpage %
+\setcounter{lecnum}{#1}%
+\setcounter{page}{1}%
+
+ \thispagestyle{fancy}
+ \headheight 45pt
+ \lhead{\bf{Mastermath, Spring 2019 \\ Geometric Functional Analysis} \vspace{.5em}\\ \hspace{1em}}
+ \chead{{\Large \bf Lecture #1} \vspace{.5em} \\ \hrule height .5mm \hfill \\ {\bf \Large #2}}
+ \rhead{\bf{Lecturers: D. Dadush, J. Briet \\ Scribe: #3} \vspace{.5em} \\ \hspace{1em}}
+ \renewcommand{\headrulewidth}{1.2pt}
+ \hspace{1em} \vspace{6pt}
+}
+
+%%%%%%%%% MACROS (ADD YOURS HERE)
+\newcommand{\set}[1]{\{{#1}\}}
+\newcommand{\T}{\ensuremath{\mathsf{T}}}
+\newcommand{\C}{\ensuremath{\mathbb{C}}}
+\newcommand{\R}{\ensuremath{\mathbb{R}}}
+\newcommand{\Z}{\ensuremath{\mathbb{Z}}}
+\newcommand{\N}{\ensuremath{\mathbb{N}}}
+\newcommand{\pr}[2]{\langle{#1, #2}\rangle}
+\newcommand{\eps}{\varepsilon}
+\renewcommand{\epsilon}{\varepsilon}
+
+\begin{document}
+
+\lecture{0}{Review of Convexity and Normed Spaces}{D. Dadush}
+
+In this lecture, we will review useful concepts in convexity and normed spaces.
+As a warning, many of the statements made here will not be proved. The intent
+here is to setup some of the basic language for the remainder of the course. For
+detailed proofs, one is recommended to look up reference books in functional and
+convex analysis. Concepts touched upon here that are important to the course
+will be revisited later, so one should not be too concerned about understanding
+all the material here upon a first reading.
+
+\section{Basic Convexity}
+
+In this section, we will focus on convexity theorems in a finite dimensional
+real vector space, which will identify with $\R^n$ or subspaces theoreof. For
+vectors $x,y \in \R^n$, we define the standard inner product $\pr{x}{y} := x^\T
+y = \sum_{i=1}^n x_i y_i$. For two sets $A,B \subseteq \R^n$ and scalars $c,d
+\in \R$, we define the Minkowski sum $c A + d B = \set{c a + d b: a \in A, b \in
+B}$.
+
+A convex set $K \subseteq \R^n$ is a set for which the line segment between any
+two points is in the set, or formally for which $\forall x,y \in K$, $\lambda
+\in [0,1]$, $\lambda x + (1-\lambda)y \in K$. A useful equivalent definition is
+that a non-empty set $K$ is convex if $\forall a,b \geq 0$, $a K + b K = (a+b)
+K$. If $K = -K$, $K$ is said to be symmetric. If $K$ is compact with non-empty
+interior, then $K$ is a convex body.  We define the affine hull ${\rm aff}(K)$
+to be the smallest affine subspace $V$ containing $K$, and define the dimension
+$\dim(K)$ to be the dimension of its affine hull. We also define ${\rm span}(K)$
+to be the smallest linear subspace containing $K$.
+
+Basic examples of convex sets, which will be important through the course, are
+the $\ell_p$ norm balls $B_p^n = \set{x \in \R^n: \|x\|_p \leq 1}$, where
+$\|x\|_p = (\sum_{i=1}^n |x_i|^p)^{1/p}$, for $p \in [1,\infty)$ and
+$\|x\|_\infty = \max_{i \in [n]} |x_i|$. Note that $B_2^n$ is the unit Euclidean
+ball and $B_\infty^n = [-1,1]^n$ the $n$-dimensional cube. All the $\ell_p$ norm
+balls are symmetric convex bodies. 
+
+\subsection{Representations of Convex Sets} 
+
+A first line of questioning for convex sets is that of representation. The two
+main representations we will interested in are in terms of convex hulls and
+linear inequalities, which are dual to each other. 
+
+Given a set $S \subseteq \R^n$, we define its convex hull by
+\begin{equation}
+\label{def:conv} 
+{\rm conv}(S) = \set{\sum_{i=1}^k \lambda_i x_i: k \in \N, x_i
+\in S, i \in [k], \lambda \geq 0, \sum_{i=1}^k \lambda = 1} \text{ .}
+\end{equation}
+It is easy exercise to check that for any convex set $K$, convex combinations of
+elements in $K$ (e.g. of the form $\sum_{i=1}^k \lambda_i x_i$ as above) are
+also in $K$. It is also easy to see that ${\rm conv}(S)$ is convex by
+definition, thus ${\rm conv}(S)$ can be seen to be the smallest convex set
+containing $S$.
+
+In finite dimensions, it is useful to understand an effective upper bound on the
+maximum size of the convex combination $k$ above needed to represent the convex
+hull. This is given by Caratheodory's theorem: 
+
+\begin{theorem}[Caratheodory's Theorem] 
+For $S \subset \R^n$ and $x \in {\rm conv}(S)$, there exists $k \leq n+1$,
+$x_1,\dots,x_k \in S$, $\lambda_1,\dots,\lambda_k \geq 0$, $\sum_{i=1}^k
+\lambda_i = 1$, such that $x = \sum_{i=1}^k \lambda_i x_i$.  
+\end{theorem}
+
+Thus in $n$ dimensions, one requires a convex combination of at most $n+1$
+points, which is easily seen to be tight: e.g. express
+$(\frac{1}{n+1},\dots,\frac{1}{n+1})$ as a convex combination of
+$0,e_1,\dots,e_n$, where $e_1,\dots,e_n$ are the standard basis vectors. Note
+that one can refine the above bound to $d+1$, where $d$ is the dimension of the
+affine hull of $S$.
+
+From the representation perspective, one may ask which convex sets can be
+expressed as convex hulls. In terms of the $\ell_p$ balls, it is a nice exercise
+to verify that
+\[
+B_1^n = {\rm conv}(\pm e_i: i \in [n]) \quad B_\infty^n = {\rm conv}(\{-1,1\}^n) \text{ .}
+\] 
+For the above examples, we in fact have a minimimum size convex hull
+representation in terms of extreme points. A point $v \in K$ is an extreme point
+/ vertex of a convex set $K$, if for $\forall x,y \in K$, $\lambda \in (0,1)$
+(note the strict inclusion) $\lambda x + (1-\lambda) y = v \Rightarrow x=y=v$.
+That is, $v$ cannot be expressed as a non-trivial convex combination of points
+in $K$.  More generally, we say that $F \subseteq K$ is a face of $K$, if $F$ is
+convex and if $\forall x,y \in K$, $\lambda \in (0,1)$ $\lambda x + (1-\lambda)
+y \in F \Rightarrow x,y \in F$. Thus the extreme points of $K$, which we denote
+by ${\rm ext}(K)$, are precisely zero dimensional faces of $K$. The following
+theorem gives a useful answer to the convex hull representation question:
+
+\begin{theorem}[Extreme Point Representation] 
+For a compact convex set $K \subseteq \R^n$, we have that 
+$K = {\rm conv}({\rm ext}(K))$.
+\label{thm:ext-pt-rep}
+\end{theorem}
+
+Note that for general closed convex sets, extreme points are not sufficient:
+e.g. $[0,\infty)$ is not the convex hull of $\set{0}$. In this case, one also
+needs the concept of extreme rays, which we do not delve into now.
+
+Compact convex sets with a finite number of extreme points are called polytopes.
+Note that $B_1^n, B_\infty^n$ are indeed polytopes, however the Euclidean ball
+$B_2^n$ is not. Indeed, it is easy to check ${\rm ext}(B_2^n) = S^{n-1}$, where
+$S^{n-1} := \set{x \in \R^n: \|x\|_2 = 1}$ is the unit Euclidean sphere in
+$\R^n$.
+
+A second form of representation is in terms of linear inequalities. The key
+concept here is that of separation, that is that points outside a convex set can
+be separated from it via a hyperplane. More generally, so can non-intersecting
+convex sets. We state this theorem below: 
+
+\begin{theorem}[Separation Theorem] Let $A,B \subseteq \R^n$ be non-empty convex
+sets such that $A \cap B = \emptyset$. Then there exists $y \in \R^n$ such that
+\begin{enumerate}
+\item {\bf Weak Separation:}
+\[
+\sup \set{\pr{y}{x}: x \in A} \leq \inf \set{\pr{y}{x}: x \in B} \quad
+\]
+\item {\bf Non-triviality:}
+\[
+\inf \set{\pr{y}{x}: x \in A} < \sup \set{\pr{y}{x}: x \in B} 
+\]
+\end{enumerate}
+Furthermore, if $A$ is closed and $B$ is compact, then $y$ can be chosen so that
+$(1)$ holds with a strict inequality.
+\label{thm:sep}
+\end{theorem}
+
+Firstly, note that the non-triviality requirement guarantees that $y \neq 0$.
+Importantly, the theorem doesn't guarantee that we can put a hyperplane
+``strictly between'' $A$ and $B$ in general, which is known as \emph{strong
+separation}. This indeed may be impossible. As an example, take $A = \set{(0,y):
+y \geq 0}$ ($y$-axis) and $B = \set{(x,y): y \geq 1/x, x > 0}$.  Here the only
+non-trivial separating hyperplane is $H = \set{(x,y): x = 0, y \in \R}$, where
+the points in $A$ satisfy $x \leq 0$ and the points in $B$ satisfy $x \geq 0$,
+where $H$ is at distance $0$ from both $A$ and $B$. Such a strictly separating
+hyperplane can be found when $A,B$ satisfy the additional conditions (as in the
+furthermore above), where we can now choose $H = \set{x \in \R^n: \pr{y}{x} =
+t}$, for any $t$ satisfying $\sup \set{\pr{y}{x}: x \in A} < t < \inf
+\set{\pr{y}{x}: x \in B}$.  
+
+From the above, one can easily derive that closed convex sets can be expressed
+as the intersection of halfspaces. To state this, we first define the so-called
+support function. For a non-empty set $A \subseteq \R^n$, we define the support
+function $h_A: \R^n \rightarrow \R \cup \set{\infty}$ of $A$, to be
+\begin{equation}
+\label{def:supf}
+h_A(y) = \sup \set{ \pr{x}{y}: x \in A} \text{ .}
+\end{equation}
+An important relation is that if $A \subseteq B$, then $h_A(y) \leq h_B(y)$ for
+all $y \in \R^n$, that is larger sets have larger support function. We may now
+state and prove the second main representation theorem:
+
+\begin{theorem}[Intersection of Halfspaces] Let $K \subseteq \R^n$ be a
+non-empty closed convex set. Then
+\[
+K = \cap_{y \in \R^n} \set{x \in \R^n: \pr{y}{x} \leq h_K(y)}
+\]
+\vspace{-2em}
+\label{thm:half-int}
+\end{theorem}
+\begin{proof}
+Note that $K$ is contained in the RHS by definition, so it suffices to show that
+if $z \notin K$ then $z$ is not in the RHS. By the separation theorem with $A =
+K$ and $B = \set{z}$, noting that $A$ is closed and $\set{z}$ is compact, there
+exists $y \in \R^n$ such that $h_K(y) = \sup \set{\pr{y}{x}: x \in A} <
+\pr{y}{z}$, as needed.  
+\end{proof}
+
+Convex sets representable as a finite intersection of halfspaces, i.e.~for which
+the $y$'s above can be restricted to a finite set $S \subset \R^n$, are known as
+polyhedra. It is direct to verify the polyhedral representations:
+\[
+B_1^n = \set{x \in \R^n: \pr{x}{y} \leq 1, \forall y \in \set{-1,1}^n} \quad
+B_\infty^n = \set{x \in \R^n: -1 \leq x_i \leq 1, \forall i \in [n]}~.
+\] 
+We note that a consequence of the Minkowski-Weil theorem is that $P$ is a
+bounded polyhedron iff $P$ has a finite number of extreme points.
+
+\subsection{Functionals, Polars and Norms}
+ 
+The support function defined above is an important example of a convex function.
+A function $f: D \rightarrow \R \cup \set{\infty}$ is convex, if its domain $D$
+is a convex set, and for all $x,y \in D$, $\lambda \in [0,1]$, $f(\lambda x +
+(1-\lambda) y) \leq \lambda f(x) + (1-\lambda) f(y)$. It is a easy exercise to
+check $h_A$ is indeed convex over $\R^n$, for any non-empty set $A \subseteq
+\R^n$. Note that $h_A$ is additionally positively homogeneous, that is
+$h_A(\lambda y) = \lambda h_A(y)$ for $y \in \R^n$, $\lambda \geq 0$. 
+
+Given a convex set $K \subseteq \R^n$, another important convex
+functional is the gauge function of $K$ (aka Minkowski functional), defined by
+\begin{equation}
+\label{eq:gauge}
+\|x\|_K = \inf \set{s \geq 0: x \in sK}, \forall x \in \R^n.
+\end{equation}
+Notice that $\|x\|_K = \infty$ if no scaling of $K$ contains $x$.  The convexity
+of the gauge function follows directly from the convexity of $K$: $x \in s K$,
+$y \in t K$, $s,t \geq 0$ implies that $x + y \in s K + t K = (s+t) K$.
+Furthermore, the gauge function is clearly positively homogeneous by definition.
+
+If we enforce that $K$ is closed and contains the origin, then we can recover
+$K$ as a level set of the gauge function, namely $K = \set{x \in \R^n: \|x\|_K
+\leq 1}$. Furthermore, it is not hard to see that replacing $K$ by the closure
+of ${\rm conv}(0,K)$, does not change the gauge function. An important relation
+is for convex sets $A \subseteq B \subseteq \R^n$, then $\|x\|_B \leq \|x\|_A$,
+that is smaller sets have larger gauge function. Furthermore, for a scalar $c >
+0$, we have that $\|x\|_{c A} = (\|x\|_A)/c$.
+
+Using results in the previous section, we will show a duality between support
+functions and gauge functions, which we will specialize to the case of norms.
+
+For this purpose, we will make use of the polar of a convex set. For convex set
+$K$ containing $0$, we define the polar of $K$ by
+\begin{equation}
+\label{eq:polar}
+K^\circ := \set{y \in \R^n: \pr{y}{x} \leq 1, \forall x \in K}
+= \set{y \in \R^n: h_K(y) \leq 1}.
+\end{equation}
+Note that since $h_K(0) = 0 \leq 1$, $0 \in K^\circ$. Furthermore, $K^\circ$ is
+closed and convex since it is the intersection of closed halfspaces. Another
+very important relation is that polarity reverses inclusion relations. That is,
+if we have convex sets $A \subseteq B$ containing $0$, then $B^\circ \subseteq
+A^\circ$. Furthermore, for a scalar $c \in \R \setminus \set{0}$, we have that
+$(c A)^\circ = A^\circ/c$.
+
+We now prove the main functional duality theorem:
+
+\begin{theorem} Let $K \subseteq \R^n$ be a closed convex set containing $0$.
+Then the following holds:
+\begin{enumerate}
+\item $(K^\circ)^\circ = K$. 
+\item $\|x\|_K = h_{K^\circ}(x)$, $\forall x \in \R^n$. 
+\end{enumerate}
+\label{thm:func-dual}
+\end{theorem}
+\begin{proof}
+We first prove (1). Note that by definition $K \subseteq (K^{\circ})^\circ$, so
+we need only prove that if $x \notin K$ then $x \notin (K^{\circ})^\circ$. If $x
+\notin K$, then since $K$ is closed and $\set{x}$ is compact, by the separator
+theorem there exists $y \in \R^n$ such that $h_K(y) < \pr{y}{x}$. Since $0 \in
+K$, clearly $h_K(y) \geq 0$. By positive homogeneity, we may choose a scalar $s
+> 0$ such that $h_K(s y) \leq 1$ and $\pr{sy}{x} > 1$ (note that this still
+holds if $h_K(y) = 0$). Since $sy \in K^\circ$ and
+$\pr{sy}{x} > 1$, we get that $x \notin (K^\circ)^\circ$ as needed.
+
+We now prove (2). From the above, we have $K = \set{x \in \R^n: \pr{x}{y} \leq
+1, \forall y \in K^\circ}$. Therefore for $s \geq 0$, we see that $sK = \set{x
+\in \R^n: \pr{x}{y} \leq s, \forall y \in K^\circ}$. In particular, for any $x
+\in \R^n$, we have that
+\[
+\|x\|_K = \inf \set{s \geq 0: x \in sK} = \inf \set{s \geq 0: \pr{x}{y} \leq s,
+\forall y \in K^\circ} = \sup \set{\pr{x}{y}: y \in K^\circ} = h_{K^\circ}(x) \text{ ,}
+\]
+as needed.
+\end{proof}
+
+\paragraph{\bf Norms:} We recall that a norm $\|\cdot\|: V \rightarrow \R_+$,
+where $V$ is real vector space, is a functional satisfying:
+
+\begin{enumerate}
+\item {\bf Positive homogeneity:} $\|\lambda x\| = \lambda \|x\|$, $\lambda \geq
+0$, $x \in V$.  
+\item {\bf Triangle inequality:} $\|x + y\| = \|x\| + \|y\|$, $x \in V, y \in
+V$.  
+\item {\bf Non-degeneracy:} $\|x\| = 0$ iff $x = 0$, $x \in V$.
+\item {\bf Symmetry:} $\|x\| = \|-x\|$, $\forall x \in V$.
+\end{enumerate}
+
+We will mostly be interested in finite dimensional real vector spaces, where we
+may identify $V$ with some $\R^n$. We restrict the discussion below to this
+setting. 
+
+We define the unit ball of $\|\cdot\|$ by $B_{\|\cdot\|} = \set{x \in \R^n:
+\|x\| \leq 1}$. It is easy to check that by positive homogeneity that $\|x\| =
+\|x\|_{B_{\|\cdot\|}}$, hence $\|x\|$ is in fact a special case of a gauge
+function. Hence, one can read off the properties of $\|\cdot\|$ from the
+geometry of the unit ball. Note that the restriction of the range to $\R_+$,
+i.e.~excluding infinity, is already meaningful since gauge functions can indeed
+take infinite values.
+
+The following lemma clarifies exactly what properties of the unit ball allow us
+to define a norm. We leave the proof as a nice exercise to the reader.
+
+\begin{lemma} 
+Let $f: \R^n \rightarrow \R_+ \cup \set{\infty}$ be a positively homogeneous
+functional. Then $f$ defines a norm on $\R^n$ iff $B_f = \set{x \in \R^n: f(x)
+\leq 1}$ is a symmetric convex body. 
+\end{lemma}
+
+Thus the study of norms can seen equivalently as the study of symmetric convex
+bodies. Given a norm $\|\cdot\|$, the dual norm $\|\cdot\|_*$ is defined by
+\begin{equation}
+\label{def:dual-norm}
+\|x\|_* = \sup \set{\pr{x}{y}: \|y\| \leq 1}.
+\end{equation}
+By compactness of $B_{\|\cdot\|}$, it is direct to check that supremum above is
+indeed attained. Using the prior definitions, it is direct to verify that if
+$B_{\|\cdot\|}$ is the unit ball of $\|\cdot\|$, then the unit ball of
+$B_{\|\cdot\|_*} = B_{\|\cdot\|}^\circ$, i.e.~the polar of the unit ball of
+$\|\cdot\|$. It is not hard to verify that if $K$ is a symmetric convex body
+then so is $K^\circ$, and hence $\|\cdot\|_*$ is indeed a norm. As a direct
+corollary of the functional duality theorem, we get the following:
+
+\begin{corollary}[Norm Relations] Let $\|\cdot\| : \R^n \rightarrow \R_+$ denote a
+norm. Then the following holds:
+\begin{enumerate}
+\item {\bf Duality:} $\|x\| = \sup \set{\pr{x}{y}: \|y\|_* \leq 1}$, $x \in \R^n$.
+\item {\bf Inequality:} $|\pr{x}{y}| \leq \|x\| \|y\|_*$, $x,y \in \R^n$.  
+\end{enumerate}
+\end{corollary}
+
+Again by compactness of $B_{\|\cdot\|_*}$, the supremum above is indeed
+attained. We now examine duality for the important special case of $\ell_p$
+norms. For this purpose, we recall H{\"o}lder's inequality stated below:
+
+\begin{theorem} Let $f,g: \Omega \rightarrow \R$ be measurable functions on a
+measure space $(\Omega,\Sigma,\mu)$ such that $|f|^p, |g|^q$ are integrable.
+Then for $1/p+1/q = 1$, $p,q > 1$, we have that
+\[
+\int f g d\mu \leq (\int |f|^p d\mu)^{1/p} (\int |g|^q d\mu)^{1/q},
+\]
+where equality holds iff both $fg \geq 0$ and $|f|^p = c |g|^q$, for some
+constant $c > 0$, hold almost everywhere. 
+\end{theorem}
+
+We can now compute the dual norms of the $\ell_p$ norms.
+
+\begin{lemma} Let $1 \leq p,q \leq \infty$ with $1/p + 1/q = 1$. Then for $x \in
+\R^n$,
+\[
+\|x\|_{p*} := \max \set{\pr{x}{y}: \|y\|_p \leq 1} = \|x\|_q .
+\]
+For $x \neq 0$, the maximization program above satisfies:
+\begin{enumerate}
+\item For $p \in (1,\infty)$, the unique maximizer is
+$y_{x,p} = ({\rm sign}(x_1) |x_1|^{q-1}/\|x\|_q^{q-1}, \dots,{\rm sign}(x_i)
+|x_n|^{q-1}/\|x\|_q^{q-1})$. 
+\item For $p = \infty$, a maximizer is $y_{x,1} := ({\rm sign}(x_1),\dots,{\rm
+sign}(x_n))$. 
+\item For $p = 1$, a maximizer is $y_{x,\infty} := {\rm sign}(x_i) e_i$
+where $i \in {\rm argmax}_{i \in [n]} |x_i|$. 
+\end{enumerate}
+\label{lem:dual-lp-norm}
+\begin{proof}
+We prove the it for $p \in (1,\infty)$, the case $p \in \set{1,\infty}$ are left
+to the reader. For $x \in \R^n \setminus \set{0}$, note that for $y =
+y_{x,p}$ as above, we have that
+\[
+\pr{x}{y} = \sum_{i=1}^n |x_i|^q/\|x\|_q^{q-1} = \|x\|_q^q/\|x\|_q^{q-1} =
+\|x\|_q
+\]
+and, using $p = q/(q-1)$, that
+\[
+\|y\|_p = (\sum_{i=1}^n (|x_i|^{q-1})^p)^{1/p} / \|x\|_q^{q-1} 
+        = (\sum_{i=1}^n |x_i|^q)^{1/p} / \|x\|_q^{q-1} =
+\|x\|_q^{q/p}/\|x\|_q^{q-1} = 1.
+\]
+Therefore $\|x\|_{p*} \geq \|x\|_q$. To prove equality, we need only prove that
+$\|x\|_{p*} \leq \|x\|_q$. By H{\"o}lder's inequality, for $\|y\|_p \leq 1$, we
+have that
+\[
+\pr{x}{y} = \sum_{i=1}^n x_i y_i \leq (\sum_{i=1}^n |x_i|^q)^{1/q}(\sum_{i=1}^n
+|y_i|^p)^{1/p} \leq \|x\|_q \|y\|_p \leq \|x\|_q \text{ .}
+\]
+From here, we note that the first inequality holds at equality iff ${\rm
+sign}(x_i) = {\rm sign}(y_i)$ and $|y_i|^p = c |x_i|^p$, for all $i \in [n]$.
+Namely, for equality to hold we have that $y = c y_{x,p}$, for some constant $c
+> 0$. Since we also enforce $1 = \|y\|_p = c \|y_{x,p}\|_p = c$, we get that
+$c=1$, as needed.
+\end{proof}
+
+\end{lemma}
+
+Note that the dual norm of the $\ell_2$ norm is the $\ell_2$ norm itself and
+that for $x \neq 0$, $y_{x,2} = x/\|x\|_2$ is the unique maximizer above. One
+can give a geometric interpretation of the above lemma in terms of polars,
+namely the above lemma implies $(B_p^n)^\circ = B_q^n$, where $1/p + 1/q = 1$.
+
+\subsection{Banach-Mazur Distance}
+
+Given two convex bodies $K_1,K_2 \subseteq \R^n$, a natural question is how well
+can one body approximate the other? A natural notion of approximation is the
+sandwiching distance (or ratio), which we define by
+\begin{equation}
+\label{def:sa-dist}
+d_{\rm sa}(K_1,K_2) = \inf \set{ab: a,b > 0, c_1 \in K_1, c_2 \in K_2, (K_1-c_1)/a \subseteq
+K_2-c_2 \subseteq b (K_1-c_1)} .
+\end{equation}
+It is easy to see that the definition is symmetric, i.e.~$d_{\rm sa}(K_1,K_2)
+= d_{\rm sa}(K_2,K_1)$. It is also direct to verify that $d_{\rm sa}(K_1,K_2)
+\geq 1$ always. By a standard compactness argument, the infimum above is in fact
+attained (here we use that $K_1,K_2$ are convex bodies, i.e.~compact with
+non-empty interior).  
+
+For the minimizing $a,b > 0$, $c_1 \in K_2, c_2 \in K_2$ above, one can verify
+that 
+\[
+\|x\|_{(K_1-c_1)b} \leq \|x\|_{K_2-c_2} \leq d_{\rm sa}(K_1,K_2) \|x\|_{(K_1-c_1)b}. 
+\]
+Furthermore, recalling that volume is $n$-homegeneous in $\R^n$, i.e.~${\rm
+vol}_n(t A) = t^n {\rm vol}_n(A)$ for $A$ measurable and $t > 0$, we also have
+that 
+\[
+{\rm vol}_n(K_1/a)^{1/n} \leq {\rm vol}_n(K_2)^{1/n} \leq d_{\rm sa}(K_1,K_2)
+{\rm vol}_n(K_1/a)^{1/n} . 
+\]
+
+For symmetric convex bodies $K_1,K_2$, the optimal choice of centers will always
+be $c_1=c_2=0$ (why?), and thus we have the simplified expression
+\[
+d_{\rm sa}(K_1,K_2) = \inf \set{ab: a,b > 0, K_1/a \subseteq K_2 \subseteq b K_2}.
+\]
+
+Apart from the basic sandwiching distance, one may more generally attempt to
+approximate $K_2$ by an linear transformation of $K_1$ with small sandwiching
+distance. This leads us to the so-called Banach-Mazur distance, which we label
+\begin{equation}
+\label{eq:bm-dist}
+d_{\rm bm}(K_1,K_2) = \inf \set{d_{\rm sa}(TK_1,K_2): T: \R^n \rightarrow \R^n \text{
+invertible }}.
+\end{equation}
+As before, one can verify that $d_{\rm bm}(K_1,K_2) = d_{\rm bm}(K_2,K_1) \geq
+1$. Additionally, via a somewhat more delicate compactness argument, we again
+have that the infimum above is attained. For symmetric convex bodies $K_1,K_2$,
+the above expression can be expanded and simplified to
+\begin{equation}
+\label{eq:bm-dist-sym}
+d_{\rm bm}(K_1,K_2) = \inf \set{b: b > 0, T: \R^n \rightarrow \R^n \text{
+invertible }, T K_1 \subseteq K_2 \subseteq b TK_1},
+\end{equation}
+where we note that the multiplier $a > 0$ has be folded into $T$. Using the
+reversal of containment under polarity, it is easy to check that $d_{\rm
+bm}(K_1,K_2) = d_{\rm bm}(K_1^\circ,K_2^\circ)$ (again for symmetric $K_1,K_2$). 
+
+Both the sandwiching distance and the Banach-Mazur distance satisfy a
+fundamental submultiplicative property. That is, for convex bodies
+$K_1,K_2,K_3$, we have that 
+\begin{equation}
+\label{lem:subm-dist}
+d(K_1,K_3) \leq d(K_1,K_2) d(K_2,K_3)
+\end{equation}
+for $d \in \set{d_{\rm bm},d_{\rm sa}}$. Verifying this is left as a nice
+exercise to the reader. Since these quantities are always at least $1$, the
+logarithm of both the sandwiching and Banach-Mazur distance can be thought of as
+metrics on the space of convex bodies. For this to make sense, we note that we
+must identify convex bodies at log-distance $0$ from each other. In the case of
+the sandwiching distance, two convex bodies are at log-distance $0$ iff they are
+homothetic, i.e.~they differ by a positive scaling and translation. For the
+Banach-Mazur distance, two convex bodies are at log-distance $0$ iff only they
+differ by an invertible affine transformation.
+
+While two convex bodies $K_1,K_2$ can have arbitrarily large sandwiching ratio
+(give an example), their Banach-Mazur distance always be bounded as a function
+of the dimension $n$ alone. Moreover, it can be shown that the space of
+$n$-dimensional convex bodies is in fact compact under the Banach-Mazur metric
+(again log-distance), yielding what is known as the Banach-Mazur compactum.
+Computing Banach-Mazur distances between convex bodies is rather challenging.
+While the diameter of the compactum is essentially known when restricted to
+symmetric convex bodies (the worst case Banach-Mazur distance is known up to a
+constant factor independent of $n$), it remains an open problem for general
+convex bodies. We will show how to obtain bounds on Banach-Mazur distances in
+the symmetric case in the upcoming lectures.
+
+\section{Normed Spaces}
+
+A (real) normed space $X = (V,\|\cdot\|_X)$ is defined by a real vector space
+$V$ and a norm $\|\cdot\|_X$ on $V$.  We denote the unit ball of $X$ by $B_X =
+\set{x \in X: \|x\|_X \leq 1}$. We note that it is also very useful to study
+normed spaces over complex vector spaces, but for simplicity we restrict to the
+real case in this lecture. A normed space is called a Banach space if it is
+complete, i.e.~all Cauchy sequences converge, under the norm topology. In finite
+dimensions, all norms induce the same topology, and hence all are automatically
+complete (and hence Banach spaces) by the Bolzano-Weierstrass theorem. In
+infinite dimensions, this may easily fail, for example examine the normed space
+$c_{00}$ of all sequences $(x_i)_{i=1}^\infty$ with only finitely many non-zero
+$x_i$'s under the max norm $\|(x_i)_{i=1}^\infty\|_\infty = \max_{i \geq 1}
+|x_i|$ (note that limits of such sequences can have infinitely many non-zeros
+and hence don't converge in $c_{00}$). As mentioned previously, we will mostly
+be focused on the geometry of finite dimensional spaces in this course, however
+we will occassionally apply tools from the infinite dimensional theory to
+understand them. Furthermore, all the spaces of interest in this course will be
+Banach spaces. 
+
+For an element $x \in X$, one should interpret $\|x\| := \|x\|_X$, since $x$ is
+``typed'' to have the norm from $X$. However, we will often be studying the
+relationship between different normed spaces on the same underlying vector
+space, say $X=(V,\|\cdot\|_X)$ and $Y=(V,\|\cdot\|_Y)$, so we will generally
+include the subscript identifying the norm to avoid confusion. 
+
+\subsection{Examples of Banach Spaces} 
+The classical finite dimensional normed spaces are $\ell_p^n = (\R^n,
+\|\cdot\|_p)$, $p \in [1,\infty]$. In infinite dimensions, these becomes the
+$\ell_p$ sequence spaces, whose elements are sequences of real numbers $(x_i)_{i
+\geq 1}$ for which $(\sum_{i \geq 1} |x_i|^p)^{1/p} < \infty$. Another class of
+Banach spaces are the $L_p := L_p(\Omega,\Sigma,\mu)$ spaces, where
+$(\Omega,\Sigma,\mu)$ is a measure space. Here $f \in L_p$, if $f$ is
+$\mu$-measurable where $\|f\|_{L_p} := (\int |f|^p(x) d\mu(x))^{1/p} < \infty$.
+The norm here is technically only a semi-norm, namely if $\|f-g\|_{L_p} = 0$
+only implies that $f=g$ $\mu$-almost everywhere. Formally, one gets rid of this
+issue by working with equivalence classes of functions, where $f \sim g$ iff
+$f=g$ $\mu$-almost everywhere. A fundamental Banach space is $C([0,1])$, the space of
+continuous functions from $[0,1]$ to $\R$, where for $f \in C([0,1])$ the norm
+$\|f\|_{C([0,1])} = \sup \set{|f(x)|: x \in [0,1]}$. Note that by continuity, the
+supremum is always attained.  
+
+Another fundamental class of normed spaces are Hilbert spaces. A real Hilbert space
+$H$ is a Banach space whose norm is induced by an inner product
+$\pr{\cdot}{\cdot}_H$, where for $x \in H$ we define $\|x\| = \sqrt{\pr{x}{x}_H}$.
+We recall that an inner product $\pr{\cdot}{\cdot}_H: H
+\times H \rightarrow \R$ satisfies:
+\begin{enumerate}
+\item {\bf Symmetry:} $\pr{x}{y}_H = \pr{y}{x}_H$, $\forall x,y \in H$. 
+\item {\bf Linearity:} 
+   \begin{itemize} 
+   \item $\pr{a x}{y}_H = a \pr{x}{y}_H$, $\forall x,y \in H$, $a \in R$.
+   \item $\pr{x+y}{z}_H = \pr{x}{z}_H + \pr{y}{z}_H$, $\forall x,y,z \in H$.
+   \end{itemize}
+\item {\bf Positivity:} $\pr{x}{x}_H \geq 0, \forall x \in H$, where equality
+holds iff $x = 0$.
+\end{enumerate}
+When the context is clear, we will drop the subscript $H$ on the inner product.
+
+Standard examples of Hilbert space are $\ell_2^n$, which comes equipped with the
+standard inner product $\pr{x}{y} = \sum_{i=1}^n x_i y_i$, as well as the
+function space $L_2$ of square integrable functions, equipped with inner product
+$\pr{f}{g} = \int f(x) g(x) d\mu(x)$.  
+
+\subsection{The Dual Space} 
+Given a real vector $V$, we let $V^*$ denote the space of linear functions from
+$V$ to $\R$. In finite dimensions dimensions, $V^*$ and $V$ are isomorphic to
+each other (i.e.~they have the same dimension), however they are not canonically
+isomorphic. In particular, for any basis $v_1,\dots,v_n \in V$, $\dim(V)=n$,
+there exists a unique dual basis $v_1^*,\dots,v_n^* \in V^*$ such that
+$v_i(v_j^*) = \delta_{ij}$ (Kronecker delta). The spaces $V$ and $V^{**}$ in
+this setting are however canonically isomorphic via the evaluation map, which
+sends $v \in V$ to the function from $V^* \rightarrow \R$, defined by $v(w^*) :=
+w^*(v)$, for $w^* \in W$, so we may generally identify $V^{**}$ with $V$. In
+terms of notation, we will generally use $v_1^*,\dots,v_n^* \in V^*$ to refer to
+a dual basis of $v_1,\dots,v_n \in V$, however we will also write $v^* \in V^*$
+to help make clear where $v^*$ belongs without any reference to a basis. 
+
+For a normed space $X = (V,\|\cdot\|_X)$ on $V$, the dual space
+$X^*=(V^*,\|\cdot\|_{X^*})$ is the space of all continuous linear functions from
+$X$ to $\R$ under the norm topology. For $y: X \rightarrow \R$ linear, the dual
+norm is $\|y\|_{X^*} = \sup \set{y(x): x \in X, \|x\|_X \leq 1}$. It is easy to
+see that continuity of $y$ under the norm topology is equivalent to having
+finite dual norm, i.e.~$\|y\|_{X^*} < \infty$. In finite dimensions, since all
+norm topologies are equivalent, all linear functions are again automatically
+continuous. Therefore for such spaces $V^*$, the so-called algebraic dual,
+coincides with $X^*$, the continous dual. We note that any norm topology on a
+finite dimensional space is equivalent to the topology one gets by considering
+the weakest topology for which all linear functions are continuous. That is, one
+may declare a basis of the open sets of $V$ to be all finite intersections of
+the sets $\set{l^{-1}((a,b)): l \in V^*, a < b \in \R}$. 
+
+In infinite dimensions however, obtaining characterizations of elements in the
+dual space can be highly non-trivial. Spaces whose continuous dual are simple to
+characterize are Hilbert spaces. For a Hilbert space $H$, the Riesz
+representation theorem states that any dual element $l \in H^*$ there exists a
+unique $y \in H$ such that $l(x) = \pr{x}{y}$, $\forall x \in H$, where
+$\pr{\cdot}{\cdot}$ is the inner product on $H$. This in fact yields a canonical
+isomorphism between a Hilbert space and its dual. Things become more complex
+if we look at the Banach space $C([0,1])$. For this space, the Riesz-Markov
+theorem states that a continuous dual functional is uniquely expressed as $f
+\rightarrow \int f d\mu$, for $f \in C([0,1])$, where $\mu$ is a Borel regular
+signed measure on $[0,1]$ of bounded variation. 
+
+Note that in Section 1, we always represented linear functions as
+$\pr{y}{\cdot}$, where $\pr{\cdot}{\cdot}$ was the standard inner product on
+some $\R^n$. More abstractly, we assumed that our space was endowed the
+structure of a Hilbert space. However, even when such representations do not exist,
+the dual space allows us to get dual representations of norms as well as to
+separate convex sets. The main tool to prove such results is the so-called
+Hahn-Banach extension theorem:
+
+\begin{theorem}[Hahn-Banach Extension Theorem] 
+Let $V$ be real vector space. Let $p: V \rightarrow \R$ be a sublinear function,
+that is:
+\begin{enumerate}
+\item $p(x+y) \leq p(x)+p(y)$, $\forall x,y \in V$.
+\item $p(\lambda x) = \lambda p(x)$, $\forall x \in V$, $\lambda \geq 0$.
+\end{enumerate}
+Let $M \subseteq V$ be a linear subspace. Assume that $\varphi \in M^*$ and that
+$\varphi(x) \leq p(x)$ for all $x \in M$. There there exists $\tilde{\varphi}
+\in V^*$ such that $\tilde{\varphi}(x) = \varphi(x)$, $\forall x \in M$ and
+$\varphi(x) \leq p(x)$, $\forall x \in V$.
+\label{thm:hb-ext}
+\end{theorem} 
+
+For a nice exposition and proof of the above theorem, the reader may
+consult~\cite{Peng2014}.
+
+The above theorem tells us that one can always lift a linear function that is
+``bounded'' on a subspace to one that is bounded on the whole space.  Here,
+sublinear functions are in fact in correspondence with gauge functions in
+defined in Section 1. Furthermore, any norm on $V$ is clearly sublinear. As an
+easy consequence of the extension theorem, we get the infinite dimensional
+equivalent of norm duality.
+
+\begin{lemma} Let $X = (V,\|\cdot\|_X)$ be a normed space. Then,
+\begin{enumerate}
+\item $|y(x)| \leq \|x\|_X\|y\|_{X^*}$, for $x \in X, y \in Y$.
+\item For any $x \in X$, $\|x\|_X = \sup \set{y(x): y \in X^*, \|y\|_{X^*} \leq 1}$.
+Furthermore, the supremum is attained.
+\end{enumerate}
+\label{lem:nd-inf}
+\end{lemma}  
+\begin{proof}
+For the first part, we have that 
+\[
+\|x\|_X\|y\|_{X^*} = \sup \set{\|x\|_X y(z): \|z\|_X \leq 1} = \sup \set{y(z):
+\|z\|_X \leq \|x\|_X} \geq \max \set{y(x),y(-x)} = |y(x)| ,
+\]
+as needed. 
+
+We now prove the second part. By part one, we have that the supremum is at most
+$\|x\|_X$, so need only prove the reverse inequality. Let $p(x) = \|x\|$ and
+define $\varphi: {\rm span}(x) \rightarrow \R$ by $\varphi(c x) = c \|x\|_X$, for all
+$c \in \R$. Note that $p(x)$ is sublinear (since $\|x\|$ is a norm), $\varphi$ is
+linear, $\varphi(x) = \|x\|_X$ by definition, and $\varphi(z) \leq p(z)$ for $z \in
+{\rm span}(x)$. Thus, by the Hahn-Banach extension theorem~\ref{thm:hb-ext},
+there exists $\tilde{\varphi} \in V^*$ such that $\tilde{\varphi}(x) = \varphi(x) =
+\|x\|_X$ and $\tilde{\varphi}(z) \leq \|z\|_X$ for all $x \in X$. By the latter
+inequality, we clearly have that $\|\tilde{\varphi}(z)\|_{X^*} \leq 1$, and hence
+the supremum is attained at $\tilde{\varphi}$ as needed.
+\end{proof}
+
+We now show how to use the extension theorem to prove basic separation theorems.
+The proofs will illustrate the utility of having the extension theorem for
+general sublinear functions.
+
+\begin{theorem}[Hahn-Banach Separation] Let $X=(V,\|\cdot\|_X)$ be a normed
+space. Let $A,B \subseteq V$ be non-empty and non-intersecting convex sets. Then
+\begin{enumerate}
+\item If $A$ is open, there exists $y \in X^*$, $\gamma \in \R$, such that $y(a)
+< \gamma \leq y(b)$, $\forall a \in A, b \in B$.
+\item If $A$ is compact and $B$ is closed, there exists $y \in X^*$, such that
+$\sup_{a \in A} y(a) < \inf_{b \in B} y(b)$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+We sketch the proofs. For part one, we first note that it is suffice to find $y
+\in X^* \setminus \set{0}$, such that $\sup_{a \in A} y(a) \leq \inf_{b \in B}
+y(b)$. Since $A$ is open, the supremum on the left hand side will not be
+attained when $y \in X^* \setminus \set{0}$, and hence we can let $\gamma =
+\inf_{b \in B} y(b)$. Take any $a \in A, b \in B$ and let $c_0 = -(a-b)$ and $C
+= (A-B)+c_0$. Firstly, note that $C$ is open since $A$ is open and that $C$ is
+convex since both $A,B$ are.  Furthermore, by construction $0 = (a-b)-(a-b) \in
+C$ and since $A,B$ are non-intersecting $c_0 \notin C$. From here, note that for
+any $y \in X^* \setminus \set{0}$, we have that 
+\begin{equation}
+\label{eq:sep-hb}
+\sup_{a \in A} y(a) \leq \inf_{b \in B} y(b) \Leftrightarrow \sup_{a \in
+A, b \in B} y(a-b) \leq 0 \Leftrightarrow \sup_{a \in A, b \in B} y(a-b+c_0)
+\leq y(c_0) \Leftrightarrow \sup_{c \in C} y(c) \leq y(c_0). 
+\end{equation}
+Thus it suffices to find $y \in X^* \setminus \set{0}$ which separates $C$ from
+$c_0$ as above. From here, let $p(x) = \|x\|_C$ be the gauge function of $C$,
+which we note is sublinear. Furthermore, by definition $p(x) \leq 1$ for all $x
+\in C$ and hence $p(c_0) \geq 1$. Let $\varphi$ be a linear function on ${\rm
+span}(c_0)$ defined by $\varphi(d c_0) = d\|c_0\|_C$, $\forall d \in \R$. By
+construction $\varphi(x) \leq p(x)$, $\forall x \in {\rm span}(c_0)$, and
+$\varphi(c_0) = \|c_0\|_C \geq 1$.  Now applying Hahn-Banach, we can extend
+$\varphi$ to $y \in V^*$ such that $y(x) \leq \|x\|_C$ and $y(c_0) \geq 1$.
+Since $\|x\|_C \leq 1$ for all $x \in C$, we see that $\sup_{c \in C} y(c) \leq
+1 \leq y(c_0)$ and $y \neq 0$ as needed. To see that $y \in X^*$,
+i.e.~$\|y\|_{X^*} < \infty$, we note that by openness of $C$, there exists
+$\alpha > 0$ such that $\alpha B_X \subseteq C$. Thus, $\|y\|_{X^*} \leq \sup_{c
+\in C} y(c)/\alpha \leq 1/\alpha$ as needed. 
+
+We now prove part 2. Let $d: A \rightarrow \R_+$ defined by $d(x) = \inf_{b \in
+B} \|x-y\|_X$. Note that by the triangle inequality, $d$ is clearly continuous.
+Since $A$ is compact and $d$ is continuous, there exists $a_0 \in A$ such that
+$d(a_0) = \inf_{a \in A} d(a)$. From here, we claim that $d(a_0) > 0$. Assume
+not, then $d(a_0)=0$ and thus there exists a sequence $(b_i)_{i \geq 1}$, $b_i
+\in B$ such that $\lim_{i \geq 1} \|b_i-a_0\|_X = 0$. In particular, the
+sequence converges to $a_0$, that is $b_i \rightarrow
+a_0$ as $i \rightarrow \infty$. Since $B$ is closed, we conclude that $a_0 \in
+B$.  This is a contradiction, since then $a_0 \in A \cap B$, which by assumption
+are non-intersecting. Therefore $\delta := d(a_0) = \inf_{a \in A, b \in B}
+\|x-y\|_X > 0$. By definition of $\delta$, we therefore have that $A' = A +
+\delta{\rm int}(B_X)$ does not intersect $B$, where ${\rm int}(B_X)$ is the
+interior of the unit ball $B_X$. Since $A'$ is convex and open, we may apply
+part one to get $y \in X^* \setminus \set{0}$ such that $\sup_{a' \in A'} y(a')
+\leq \inf_{b \in B} y(b)$. The desired conclusion follows noting that $\sup_{a'
+\in A'} y(a') = \sup_{a \in A} y(a) + \delta \|y\|_{X^*} > \sup_{a \in A} y(a)$,
+since $y \neq 0$.  
+\end{proof}
+
+We highlight some salient differences with the separation theorem in section 1
+(Theorem~\ref{thm:sep}). As mentioned previously, we do not insist on the linear
+function being represented by an inner product. Second, we require that the
+linear function be continuous, which is automatic in finite dimensions. Lastly,
+one may note the requirement in the first part that $A$ be open, which does not
+appear in Theorem~\ref{thm:sep}. This is mainly needed ensure to continuity of
+the separator (i.e.~that $C$ is open in the proof) which is not an issue in
+finite dimensions. One can essentially use the same proof as above to recover
+Theorem~\ref{thm:sep} in finite dimensions, by first replacing $A,B$ by their
+relative interiors and then restricting to the linear span $W$ of $C := A-B+c_0$
+(extending the separator from $W$ to the whole space can be done arbitrarily).
+Note that in finite dimensions, $C$ will indeed be open in $W$ with respect to
+the subspace topology.
+
+Given the similarites between the duality theory in finite and infinite
+dimensions, one may expect natural statements such as the ``dual of the dual''
+is isomorphic to the original space to be true, i.e.~$X^{**} \equiv X$. This
+unfortunately fails in infinite dimensions. While not a focus of the course, we
+elaborate on this subject a bit below, as it is conceptually helpful to see how
+things differ in infinite dimensions. 
+
+We recall that $X$ naturally embeds into $X^{**}$ via the evaluation map, which
+sends $x \in X$ to the function $e_x: X^* \rightarrow \R$ defined by $e_x(y) =
+y(x)$ for $y \in X^*$. This mapping always isometrically embeds $X$ into
+$X^{**}$, that is
+\[
+\|e_x\|_{X^{**}} = \sup \set{e_x(y): y \in X^*, \|y\|_{X^*} \leq 1} = \sup
+\set{y(x): y \in X^*, \|y\|_{X^*} \leq 1} = \|x\|_X.
+\]
+The above equality is exactly Lemma~\ref{lem:nd-inf}, which we recall further
+implies that the supremum above is attained. That is, for every $x \in X$ there
+exists $y \in B_{X^*}$ such that $y(x) = \|x\|_X$. From the above, as a map from
+$X$ to $X^{**}$, the evaluation map $x \rightarrow e_x$ can be see to be
+injective. However, it need not be onto. Spaces for which the evaluation map
+from $X$ to $X^{**}$ is bijective are known as reflexive spaces. 
+
+To see how $X^{**}$ can be ``bigger'' than $X$, we may use the fact that the
+dual space $X^*$ is always complete and hence a Banach space (this is nice
+exercise for the reader). Given this, we also have that $X^{**}$ is a Banach
+space, and hence if $X$ is not complete (e.g.~$c_{00}$) the evaluation map
+cannot be bijective. Such examples are also easy to find when $X$ is a Banach
+space. A useful characterization of reflexivity is James' theorem: $X$ is
+reflexive iff for all $y \in X^*$ the supremum in $\|y\|_{X^*} = \sup \set{y(x):
+x \in B_X}$ is attained. Thus, as there always exists a dual element in
+$B_{X^*}$ that witnesses the norm of an element in $X$, lack of reflexivity can
+only occur when there is element in $X^*$ for which the dual norm is not
+witnessed by any element of $B_X$ (i.e.~the supremum is not attained). Applying
+James' theorem, using the same argument as in Lemma~\ref{lem:dual-lp-norm}, one
+can check that the $\ell_p$ sequence spaces for $p \in (1,\infty)$
+(i.e.~excluding $p \in \set{1,\infty}$) are indeed reflexive, where $\ell_p^*$
+is isometric to $\ell_q$ where $1/p+1/q=1$. For $\ell_1$ it turns out that the
+dual $\ell_1^*$ is isometric to $\ell_\infty$, however $\ell_\infty^*$ is
+``bigger'' than $\ell_1$. In particular, if we look at the sequence $x :=
+(1-1/i)_{i \geq 1}$, it is clear that $\|x\|_\infty = \sup_{i \geq 1} |x_i| =
+1$, however for every $y \in \ell_1$, with $\sum_{i \geq 1} |y_i| = 1$, we
+clearly have $\sum_{i \geq 1} x_i y_i < 1$, so the supremum is not attained.  In
+finite dimensions, all normed spaces (i.e.~Banach spaces) are reflexive. This is
+due to the fact that for a finite dimensional space $X$, the dual space $X^*$
+has the same dimension. In particular, the evaluation map from $X$ to $X^{**}$
+must be bijective, since both spaces have the same (finite) dimension. 
+
+% We now show that in finite dimensions, the notion of dual norm in the previous
+% section can be identified with the one defined above once an inner product has
+% been chosen. For this purpose, we restrict for simplicity to the case where $X =
+% (\R^n, \|\cdot\|_X)$, i.e.~ where the underlying vector space is
+% $\R^n$. Recall that the dual space $X^* = (\R^{n*}, \|\cdot\|_{X^*})$ is a
+% normed space on the linear functions from $\R^n$ to $\R$. To make the relation
+% with the previous section, we must first embed $\R^{n*}$ into $\R^n$. For this
+% purpose, we use the isomorphism $m: \R^{n*} \rightarrow \R^n$ satisfying $y(x) =
+% \pr{m(y)}{x}$, $\forall x \in \R^n$, $y \in \R^{n*}$, where $\pr{\cdot}{\cdot}$
+% is the standard inner product on $\R^n$. With this hand, for $y \in \R^{n*}$, we
+% see that
+% \[
+% \|y\|_{X^*} = \sup \set{y(x): x \in B_X} = \sup \set{\pr{m(y)}{x}: x \in B_X}
+% = h_{B_X}(m(y)) = \|m(y)\|_{X*}.
+% \]
+% From here, it is easy to check that $m(B_{X^*}) = B_X^\circ$, that is image of
+% the unit ball of the dual space under the isomorphism $m$ is exactly the polar
+% of the unit ball of $X$. Given the above, the reader may have noticed that there
+% is nothing sacred in the choice of the standard inner product $\pr{x}{y} =
+% \sum_{i=1}^n x_i y_i$. In fact, one may choose a different inner product on
+% $\R^n$ to define the support function, polar and the isomorphism from $\R^{n*}$
+% into $\R^n$ (all three objects must of course be defined using the same inner
+% product). We will indeed explore the benefits of this flexibility in future
+% lectures in terms of being able to simplify the geometry of the space. Note that
+% in infinite dimensional Banach spaces, it may not be possible to define an inner
+% product on the space at all, and thus the above theory does not apply
+% universally. 
+% 
+% We now state an important convention for the space $\ell_2^n =
+% (\R^n,\|\cdot\|_2)$. Here the standard inner product is part of the definition
+% of the space and therefore yields a canonical isometry between $\ell_2^n$ and
+% $\ell_2^{n*}$ (recall that the dual norm $\|\cdot\|_2$ is again $\|\cdot\|_2$).
+% In this context, it is very convenient to identify $\ell_2^n$ with the space
+% ``column'' vectors and $\ell_2^{n*}$ with the space ``row'' vectors, where
+% ``applying'' a row vector $y^\T$ to a column vector $x$ is simply $y^\T x =
+% \sum_{i=1}^n y_i x_i$, i.e.~the standard inner product. From here, the map
+% sending $x \rightarrow x^\T$ defines a natural isometry between $\ell_2^n$ and
+% $\ell_2^{n^*}$ and vice versa. Due to this isometry, the spaces $\ell_2^n$ and
+% $\ell_2^{n*}$ are often identified with each other in the literature (many texts
+% do not even bother to distinguish the two). However, these spaces are formally
+% distinct and the passage from one space to the other should always be
+% interpreted as going through the canonical isometry. A similar identification is
+% made between $H$ and $H^*$ for any Hilbert space $H$, where the canonical
+% isomorphism from $H$ to $H^*$ sends $x \rightarrow \pr{x}{\cdot}_H$ (recall this
+% is an isomorphism by the Riesz representation theorem).  
+
+\subsection{Linear Operators}
+
+\paragraph{\bf Linear Maps.}
+Given two real vector space $V, W$, let $\mathcal{L}(V,W)$ the space of linear
+maps (or operators) from $V$ to $W$. We shall use $\mathcal{L}(V) :=
+\mathcal{L}(V,V)$, to denote the space of linear maps from $V$ to $V$. We will
+find it very convenient to identify elements of $W \otimes V^*$ as elements of
+$\mathcal{L}(V,W)$. That is given
+\[
+\sum_{i=1}^k w_i \otimes v_i^*
+\]
+where $w_i \in W, v_i^* \in V^*$, $k \in \N$, for $x \in V$ we interpret
+\[
+(\sum_{i=1}^k w_i \otimes v_i^*)(x) = \sum_{i=1}^k w_i v_i^*(x).
+\]
+We now discuss the finite dimensional setting, where $\dim(V) = n$ and $\dim(W)
+= m$. In this setting, every linear map can be represented as above. Indeed,
+if we let $w_1,\dots,w_m \in W$ and $v_1^*,\dots,v_n^* \in V^*$ be bases of $W$
+and $V^*$, then any map $T \in \mathcal{L}(V,W)$ can be uniquely represented as
+\[
+T := \sum_{i \in [m], j \in [n]} a_{ij} w_i \otimes v_j^*
+\]
+where $A = (a_{ij}) \in \R^{m \times n}$. If $w_1^*,\dots,w_m^* \in W$,
+$v_1,\dots,v_n \in V$ are the corresponding dual bases, then one can check that
+$a_{ij} = w_i^*(T(v_j))$, $\forall i \in [m], j \in [n]$. We thus call $A$ the
+coefficient matrix of $T:V\rightarrow W$ with respect to the input basis
+$v_1,\dots,v_n \in W$ and output basis $w_1,\dots,w_m \in W$. When we refer to
+the coefficient matrix of linear map $T: \R^n \rightarrow \R^m$, without
+specifying the basis, we will always mean with respect to the standard bases of
+both spaces (i.e.~$e_1,\dots,e_n \R^n$ and similarly for $\R^m$). From the
+above discussion, one derives that $\mathcal{L}(V,W)$ is a vector space over
+$\R$ of dimension $\dim(W) \dim(V) = m n$, and that $\mathcal{L}(V,W)$ and $W
+\otimes V^*$ are canonically isomorphic. 
+
+As one would expect, one can relate the composition of linear maps to the matrix
+product of coefficient matrices, under the assumption that the choice of bases
+is consistent. In particular, if we compose $T$ above with $S \in
+\mathcal{L}(U,V)$, $\dim(U) = d$, where $S$ is represented as $\sum_{i \in [n],
+j \in [d]} v_i \otimes u_j^* b_{ij}$, where $u_1^*,\dots,u_d^* \in U^*$ is a
+basis of $U^*$ and $B = (b_{ij}) \in \R^{n \times d}$, then 
+\begin{align}
+T S &= (\sum_{i \in [m], k \in [n]} w_i \otimes v_k^* a_{ij})(\sum_{k' \in [n], j
+\in [d]} v_{k'} \otimes u_j^* b_{k'j}) \nonumber \\
+   &= \sum_{i \in [m], j \in [d]}(\sum_{k,k' \in [n]}
+v_k^*(v_{k'}) a_{ik} b_{k'j}) w_i \otimes u_j^*  \nonumber \\
+   &= \sum_{i \in [m], j \in [d]} (\sum_{k \in [n]} a_{ik}
+b_{kj}) w_i \otimes u_j^*  
+   = \sum_{i \in [m], j \in [d]} (A B)_{ij}  w_i \otimes u_j^* \label{eq:mat-prod},
+\end{align}
+where $AB$ is the matrix product. Note that the above holds, because we the
+input basis we use for $T$ is the same as the output basis we used for $S$.
+Using~\eqref{eq:mat-prod}, one can easily derive how the coefficient matrices
+change under changes of basis of either the ouput or input space. Let us assume
+we want to change basis for the space $V$ from $v_1,\dots,v_n \in V$ to
+$\tilde{v}_1,\dots,\tilde{v}_n \in V$ with corresponding dual bases
+$v_1^*,\dots,v_n^*$ and $\tilde{v}_1^*,\dots,\tilde{v}_n^* \in V^*$. To begin, we
+understand this for representations of the identity $I_V$ from $V$ to $V$. Note
+that $I_V = \sum_{i=1}^n v_i \otimes v_i^* = \sum_{i=1}^n \tilde{v}_i \otimes
+\tilde{v}_i^*$, since by construction $x \in V$, $x = \sum_{i=1}^n v_i v_i^*(x)
+= \sum_{i=1}^n \tilde{v}_i \tilde{v}_i^*(x)$. From here, we see that
+\begin{align}
+I_V &= I_V \circ I_V \nonumber \\ 
+    &= (\sum_{i \in [n]} v_i \otimes v_i^*)(\sum_{j \in [n]} \tilde{v}_j\otimes
+\tilde{v}_j^*) = \sum_{i,j \in [n]} v_i^*(\tilde{v}_j) v_i \otimes \tilde{v}_j^*
+ \label{eq:id1} \\
+    &= (\sum_{i \in [n]} \tilde{v}_i \otimes
+\tilde{v}_i^*)(\sum_{j \in [n]} v_j \otimes v_j^*) =
+\sum_{i,j \in [n]} \tilde{v}_i^*(v_j) \tilde{v}_i \otimes v_j^*. \label{eq:id2}
+\end{align}
+Letting $C = (v_i^*(\tilde{v}_j))_{i,j \in [n]}$ and $C' =
+(\tilde{v}^*_i(v_j))_{i,j \in [n]}$, applying~\eqref{eq:mat-prod} to the product
+of representations of $I_V$ in~\eqref{eq:id1} and~\eqref{eq:id2}, we see that $C
+C' = C' C = I_{n \times n}$ is the $n \times n$ identity (one can also easily
+check this directly), and hence $C' = C^{-1}$. Now if we wish to change the
+input basis of $T$ from $v_1,\dots,v_n$ to $\tilde{v}_1,\dots,\tilde{v}_n$,
+applying~\eqref{eq:mat-prod} to the product ot $T$ and the representation of
+$I_V$ in~\eqref{eq:id1}, we get that 
+\begin{equation}
+T = T \circ I_V = \sum_{i \in [m], j \in [n]} (AC)_{ij} w_i \otimes
+\tilde{v}_j^* \label{eq:change-input}.
+\end{equation}
+Similarly, if one changes the output basis of $T$ from $w_1,\dots,w_m$ to
+$\tilde{w}_1,\dots,\tilde{w}_m$, we get that
+\begin{equation}
+T = I_W \circ T = \sum_{i \in [m], j \in [n]} (DA)_{ij} \tilde{w}_i \otimes
+v_j^* \label{eq:change-output}.
+\end{equation}
+where $D = (\tilde{w}_i^*(w_j))_{i,j \in [m]}$, and if we change both input and
+output basis, we get
+\begin{equation}
+T = I_W \circ T \circ I_V = \sum_{i \in [m], j \in [n]} (DAC)_{ij} \tilde{w}_i
+\otimes \tilde{v}_j^* \label{eq:change-input-output}.
+\end{equation}
+Lastly, if $W=V$, $(\tilde{w}_1,\dots,\tilde{w}_n) =
+(\tilde{v}_1,\dots,\tilde{v}_n)$, $(w_1,\dots,w_n) = (v_1,\dots,v_n)$, we get
+the classical change of basis formula
+\begin{equation}
+T = (\sum_{i,j \in [n]} a_{ij} v_i \otimes v_j^*) = \sum_{i, j \in [n]}
+(C^{-1}AC)_{ij} \tilde{v}_i \otimes \tilde{v}_j^* \label{eq:change-of-basis}.
+\end{equation}
+That is, for a map $T: V \rightarrow V$, the coefficient matrices of $T$ are all
+related by similarity transformations.
+
+\paragraph{\bf The Trace and Determinant.} For an $n \times n$ matrix $A$, we
+recall that the trace and determinant of $A$ are defined by
+\[
+\text{\bf Trace:} \quad {\rm tr}(A) = \sum_{i=1}^n A_{ii}, \quad \text{\bf
+Determinant:} \sum_{{\rm permutation}~\sigma: [n] \rightarrow [n]} {\rm sign}(\sigma) \prod_{i=1}^n A_{i\sigma(i)} ,
+\]
+where ${\rm sign}(\sigma)$ is the sign of the permutation $\sigma$ (i.e.~$1$ if
+$\sigma$ can be written as a product of an even number of transpositions and
+$-1$ otherwise). For $A,B \in \R^{n \times n}$, we recall that the determinant
+is multiplicative and that the trace is cyclic: 
+\[
+\det(A B) = \det(A) \det(B) \quad {\rm tr}(AB) = {\rm tr}(BA).
+\]
+
+We now extend these definitions to the space of linear maps $\mathcal{L}(V)$.
+For $T \in \mathcal{L}(V)$, $\dim(V)=n$, we define $\det(T)$ and ${\rm tr}(T)$
+to be the trace and determinant of any coefficient matrix $A \in \R^{n \times
+n}$ of $T$ (i.e.~with respect any basis of $V$). This quantity is basis
+independent since every coefficient matrix of $T$ is related to $A$ by a
+similarity transformation. Indeed, for any invertible matrix $C \in \R^{n
+\times n}$, we have $\det(C^{-1} A C) = \det(A C C^{-1}) = \det(A)$ and ${\rm
+tr}(C^{-1} A C) = {\rm tr}(A C C^{-1}) = {\rm tr}(A)$. 
+
+For the trace, a basis independent definition may be given as follows: given $T
+\in \mathcal{L}(V)$ and any representation $T = \sum_{i=1}^k v_i \otimes w_i^*$,
+$v_i \in V$, $w_i^* \in V^*$, $\forall i \in [k]$, we have that
+\[
+{\rm tr}(T) = \sum_{i=1}^k w_i^*(v_i).
+\]
+To justify the above, letting $e_1,\dots,e_n \in V$ and $e_1^*,\dots,e_n^* \in
+V$ be any pair of dual bases, we have that
+\[
+{\rm tr}(T) = \sum_{i=1}^n e_i^*(T(e_i)) = \sum_{j=1}^k \sum_{i=1}^n e_i^*(v_j w_j^*(e_i)) 
+            = \sum_{i=1}^k w_j^*(\sum_{i=1}^n e_i e_i^*(v_j)) 
+            = \sum_{i=1}^k w_j^*(v_j).
+\]
+
+For the absolute value of the determinant, a useful basis independent
+interpretation is as a change of measure. We recall for an $n$-dimensional real
+vector space $V$ there exists a unique, up to a positive scaling, non-zero
+translation invariant Borel measure $\mu$ on $V$. Furthermore, given $T \in
+\mathcal{L}(V)$, the measure $\mu(T(\cdot))$ is also translation invariant, and
+hence $\mu(T(A)) = c \mu(A)$, for all Borel measurable $A \subseteq V$, for some
+$c \geq 0$. The absolute value of the determinant is in fact equal the scaling
+factor $c = |\det(T)|$.
+
+Lastly, we can intepret both $\det(T)$ and ${\rm tr}(T)$ in terms of the
+eigenvalues $\lambda_1,\dots,\lambda_n$ of $T$, namely $\det(T) = \prod_{i=1}^n
+\lambda_i$ and ${\rm tr}(T) = \sum_{i=1}^n \lambda_i$. Here, we recall that the
+eigen value are the roots (counting multiplicity) of the characteristic
+polynomial $p(\lambda) = \det(T-\lambda I_V)$, where $I_V$ is the identity map
+on $V$.
+
+We now list the main important properties of the determinant and trace in the
+abstract setting. These are easy to verify using the corresponding statements
+for matrices.
+
+\begin{proposition}
+\label{lem:tr-det-props}
+Let $V,W$ be finite dimensional real vector spaces and let $A \in
+\mathcal{L}(V,W)$, $B \in \mathcal{L}(W,V)$. Then the following holds:
+\begin{itemize}
+\item ${\rm tr}(AB) = {\rm tr}(BA)$.
+\item If $\dim(V)=\dim(W)$, then $\det(AB) = \det(BA)$.  
+\item If $V=W$, then $\det(AB) = \det(A)\det(B)$.
+\end{itemize}
+\end{proposition}
+
+\paragraph{\bf Dual Operators and Dual Spaces of Linear Maps.} 
+
+Given a linear operator $T: V \rightarrow W$, the dual operator $T^*: W^* \rightarrow
+V^*$ sends $w^* \in W^*$ to the linear map $(T^* w^*)(v) = w^*(Tv)$, $\forall v
+\in V$. Given a representation of $T$,
+\[
+T = \sum_{i=1}^k w_i \otimes v_i^*, 
+\]
+$w_i \in W$, $v_i \in V^*$, it is easy to check that
+\[
+T^* = \sum_{i=1}^k v_i^* \times w_i \in \mathcal{L}(W^*,V^*),
+\] 
+where as usual we identify $w_i \in W$ with an element of $W^{**}$. If $V=W$ and
+the coefficient matrix of $T$ with respect a basis $v_1,\dots,v_n \in V$ is
+$A=(a_ij) \in \R^{n \times n}$, then by the above
+\[
+T^* = \sum_{i,j \in [n]} a_{ji} v_i^* \otimes v_j \in \mathcal{V^*}
+\]
+where the coefficient matrix $A^*$ of $T^*$ w.r.t. $v_1^*,\dots,v_n^* \in V^*$
+is $A^* = A^t$, i.e.~the transpose of $A$. Given this, for $T \in
+\mathcal{L}(V)$ and $V$ finite dimensional, we have that
+\[
+{\rm tr}(T) = {\rm tr}(T^*), \quad \det(T) = \det(T^*),
+\] 
+which follows from the standard matrix identities ${\rm tr}(A) = {\rm tr}(A^\T)$
+and $\det(A) = \det(A^\T)$.
+
+Another useful relation is if $T: V \rightarrow W$ is invertible, then
+\begin{equation}
+\label{eq:eq-dual-inverse}
+(T^{*})^{-1} = (T^{-1})^*.
+\end{equation}
+We prove this presently. For $w^* \in W^*$ and $v^* \in V^*$, we see that
+\begin{align*}
+(T^*)^{-1} v^* = w^* \Leftrightarrow
+v^* = T^* w^*  \Leftrightarrow
+&~v^*(x) = w^*(T x) ~ \forall x \in V \Leftrightarrow \\
+&~v^*(T^{-1} y)= w^*(y)  ~ \forall y \in W \Leftrightarrow (T^{-1})^* v^* = w^*.
+\end{align*}
+The desired equality~\eqref{eq:eq-dual-inverse} thus follows.
+
+We now discuss a convenient representation of the dual space
+$\mathcal{L}(V,W)^*$, the space of linear functions on linear maps from $V$ to
+$W$. Using the trace, for finite dimensional spaces $V,W$, one can in fact
+canonically identify $\mathcal{L}(V,W)^*$ with linear maps in
+$\mathcal{L}(W,V)$. We show this below. 
+
+\begin{lemma}\label{lem:dual-l} 
+Let $V,W$ be finite dimensional real vector spaces. Then for $A^* \in
+\mathcal{L}(V,W)^*$, there exists a unique $A \in \mathcal{L}(W,V)$ such that
+$A^*(T) = {\rm tr}(T A)$, for all $T \in \mathcal{L}(V,W)$.
+\end{lemma}
+\begin{proof}
+Let $m=\dim(W)$, $n = \dim(V)$, $w_1,\dots,w_m \in W$ and $v_1,\dots,v_n \in V$
+denote basis of $W,V$ respectively. Let $w_1^*,\dots,w_m^* \in W^*$,
+$v_1^*,\dots,v_n^* \in V^*$ denote the corresponding dual bases.
+
+For $A^* \in \mathcal{L}(V,W)^*$, let $a_{ij} = A^*(w_i \otimes v_j^*)$, $i \in
+[m]$, $j \in [n]$. We claim that 
+\[
+A = \sum_{i \in [n],j \in [m]} a_{ji} v_i \otimes w_j^* \in \mathcal{L}(W,V)
+\]
+satisfies the conditions of the lemma. 
+
+Taking $T \in \mathcal{L}(V,W)$, we may uniquely write $T = \sum_{i \in [n], j
+\in [m]} b_{ij} w_i \otimes v_j^*$ for some coefficient matrix $B=(b_{ij}) \in
+\R^{m \times n}$. From here, we have that
+\begin{align*}
+{\rm tr}(T A) &= {\rm tr}((\sum_{i,j} b_{ij} w_i \otimes v_j^*)(\sum_{k,l} a_{lk}
+v_k \otimes w_l^*)) 
+  = \sum_{i,j,k,l} b_{ij} a_{lk} v_j^*(v_k){\rm tr}(w_i \otimes w_l^*) \\
+  &= \sum_{i,j,k,l} b_{ij} a_{lk} v_j^*(v_k) w_l^*(w_i) 
+  = \sum_{i,j} b_{ij} a_{ij} = \sum_{i,j} b_{ij}A^*(w_i \otimes v_j^*) 
+  = A^*(T),
+\end{align*} 
+as needed. By the above, any $A' \in \mathcal{L}(W,V)$ for which $L^*(\cdot) =
+{\rm tr}(\cdot A')$, must have the same coefficient matrix as $A$ with respect
+to the input basis $w_1,\dots,w_m$ and output basis $v_1,\dots,v_n$. Therefore
+$A$ is also unique, as needed. 
+\end{proof}
+
+\paragraph{\bf The Operator Norm.}
+
+We now extend the above definitions to operators between normed spaces and
+discuss the operator norm. Let $X=(V,\|\cdot\|_X), Y=(W,\|\cdot\|_Y)$ be normed
+spaces. Given a linear map $T: X \rightarrow Y$, we define the operator norm of
+$T$ by \begin{equation}
+\label{def:operator-norm}
+\|T\|_{\rm op} = \sup \set{\|Tx\|_Y: \|x\|_X \leq 1}.
+\end{equation}
+We define $\mathcal{B}(X,Y)$ to be the space of bounded  (e.g.  continuous)
+linear operators from $X$ to $Y$ equipped with the operator norm from $X$ to
+$Y$.
+
+It will often be the case that we will have a linear map $T \in
+\mathcal{L}(V,W)$ between vectors spaces which we wish to analyze with respect
+to different operator norms. Since $T$ maps the underlying vector space of $X$
+to that of $Y$, one can certainly interpret $T$ as a map from $X$ to $Y$. For
+such a linear map, we will use the notation $\|T\|_{X \rightarrow Y}$ to denote
+its norm as an operator from $X$ to $Y$.
+
+\paragraph{\bf Examples of Norms on Operators.}
+
+We begin with some simple examples. For $T \in \mathcal{B}(\ell_1^n,Y)$,
+$\|T\|_{\rm op} = \max_{i \in [n]} \|Te_i\|_Y$, where $e_1,\dots,e_n$ are the
+standard basis of $l_1^n$. In particular, for $T \in
+\mathcal{B}(\ell_1^n,\ell_2^m)$, $\|T\|_{\rm op}$ is the largest $\ell_2$ norm
+of a column of $T$'s coefficient matrix with respect to the standard basis. As a
+more interesting example, for $T \in \mathcal{B}(\ell_2^n,\ell_\infty^m)$, one
+can verify that $\|T\|_{\rm op}$ is the largest $\ell_2$ norm of a row of $T$'s
+coefficient matrix. Given a linear map $T \in \mathcal{L}(\R^n,\R^m)$, we will
+often be interested in its operator norm from $\ell_p$ to $\ell_q$, $p,q \geq
+1$, which we denote by $\|T\|_{p \rightarrow q}$ for convenience. 
+
+Perhaps one of the most studied spaces is $\mathcal{B}(\ell_2^n,\ell^m_2)$.
+Given $T \in \mathcal{B}(\ell_2^n,\ell_2^m)$, the operator norm is the largest
+singular value of $T$. Recall that if $\sigma_1(T) \geq \sigma_2(T) \geq
+\sigma_k(T) \geq 0$ are the singular values of $T$ iff we can express $T$'s
+coefficient matrix (w.r.t. the standard bases) by $\sum_{i=1}^k \sigma_i u_i
+v_i^\T$, where $u_1,\dots,u_k$ and $v_1,\dots,v_k$ are orthonormal bases of
+subspaces of $\R^m$ and $\R^n$ respectively. Using the tensor product
+representation from the last section, this corresponds to representing $T$ by
+$\sum_{i=1}^k \sigma_i u_i \otimes \pr{\cdot}{v_i}$, where $\pr{\cdot}{\cdot}$
+is the standard inner product on $\R^n$ and $\pr{\cdot}(v_i)(w) = \pr{w}{v_i}$
+is the corresponding dual functional in $\R^{n^*}$. Note that this definition
+of singular value also makes sense for operators between arbitrary Hilbert
+spaces, as long as they admit a countable basis.  
+
+The significance above of considering maps from
+$\mathcal{B}(\ell_2^n,\ell_2^m)$ instead of just $\mathcal{L}(\R^n,\R^m)$ has
+simply been to underline the fact that the input and output space are Hilbert
+spaces and hence singular values / orthogonal bases make sense. As mentioned
+before, we will always think of $\R^n, \R^m$ as Hilbert spaces with equipped
+with the standard inner product and hence there should be no confusion when
+talking about singular values for maps from $\mathcal{L}(\R^n,\R^m)$. Note that
+the operator norm of a map $T \in \mathcal{L}(\R^n,\R^m)$ is not technically
+speaking defined, however unless otherwise specified, we will mean the $2
+\rightarrow 2$ norm. 
+
+Continuing further, there are in fact many other interesting norms on operators
+in $\mathcal{L}(\R^n,\R^m)$ apart from the operator ($2 \rightarrow 2$) norm. In
+particular, for $T \in \mathcal{L}(\R^n,\R^m)$, we may define the
+Hilbert-Schmidt norm $\|T\|_{HS} = (\sum_{i=1}^n \|T o_i\|_2^2)^{1/2}$, where
+$o_1,\dots,o_n$ is any orthogonal basis. One can verify that $\|T\|_{HS} =
+\sqrt{\sum_{i \geq 1} \sigma_i^2(T)}$, i.e.~the $\ell_2$ norm of the singular
+values of $T$. Additionally, in terms of $T$'s coefficient matrix $(t_{ij}) \in
+\R^{m \times n}$, the Hilbert-Schmidt norm $\|T\|_{HS} = (\sum_{i \in [m], j \in
+[n]} t_{ij}^2)^{1/2}$ is simply the $\ell_2$ norm of the entries of the matrix.
+More generally, one can examine the so-called Shatten $p$-norm of $T$, defined
+by $\|T\|_p = (\sum_{i \geq 1} \sigma_i(T)^p)^{1/p}$, for $p \in [1,\infty]$.
+The $2 \rightarrow 2$ norm for $T \in \mathcal{L}(\R^n,\R^m)$ is the special
+case $\|T\|_{2 \rightarrow 2} = \|T\|_{\infty}$ while the Hilbert-Schmidt norm
+is $\|T\|_{\rm HS} = \|T\|_{2}$. We note that it is non-trivial to verify that
+the Shatten $p$-norms are indeed norms. The notation $\|T\|_p$ here is to
+highlight the similarity between the standard $\ell_p$ norms. Indeed, the
+Shatten norms satisfy an analogous duality relation, where it can be show that
+\[
+\|T\|_{p} = \sup \set{{\rm tr}(T S): S \in \mathcal{L}(\R^m,\R^n), \|S\|_q \leq 1}
+\]
+where $1/p + 1/q = 1$. 
+
+\paragraph{\bf Dual Operators on Normed Spaces.} Given an operator $T: X
+\rightarrow Y$, we define the dual operator $T^*: Y^* \rightarrow X^*$ as
+before, which sends $y^* \in Y^*$ to the linear map $(T^* y)(x) = y(Tx)$,
+$\forall x \in X$. The following fundamental proposition shows that the operator
+norm of $T$ and $T^*$ are equal.   
+
+\begin{proposition} Let $T: X \rightarrow Y$ be a linear operator. Then $\|T\| =
+\|T^*\|$.
+\end{proposition}
+\begin{proof}
+\begin{align*}
+\|T\| &= \sup \set{\|Tx\|_Y: \|x\|_X \leq 1, x \in X} \\
+      &= \sup \set{y(Tx): \|x\|_X \leq 1, x \in X, \|y\|_Y \leq 1, y \in Y^*}
+\quad \left(\text{ by norm duality }\right) \\
+      &= \sup \set{(T^*y)(x): \|x\|_X \leq 1, x \in X, \|y\|_Y \leq 1, y \in Y^*} 
+\quad \left(\text{ by definition of $T^*$ }\right) \\
+      &= \sup \set{\|T^*y\|_{X^*}: \|y\|_Y \leq 1, y \in Y^*} 
+\quad \left(\text{ by definition of $\|\cdot\|_{X^*}$ }\right) \\
+      &= \|T^*\| \text{ .}
+\end{align*}
+\end{proof}
+
+% \paragraph{\bf Embeddings into $\R^n$.} 
+% In this section, we show how to formalize the process of isometrically embedding
+% a finite dimensional into some $\R^n$. As we will show, different embeddings can
+% be interpreted as different choices of inner product in the original space.  
+% 
+% Let $X = (V,\|\cdot\|_X)$ be an $n$-dimensional normed space. Let $a_1,\dots,a_n
+% \in X$ be a basis, and let $a_1^*,\dots,a_n^* \in X^*$ denote the corresponding
+% dual basis, namely, for which $a_i^*(a_j) = 1$ if $i=j$ and $0$ otherwise. 
+% 
+% In finite dimensions, we can make the connection to the geometric viewpoint in
+% the previous section by explicitly embedding $X$ into some $\R^n$. For $X =
+% (V,\|\cdot\|)$ with $\dim(V) = n$, let $b_1,\dots,b_n \in X$ denote a basis of
+% $X$. Given such a basis, we may examine the normed space $\tilde{X} =
+% (\R^n,\|\cdot\|)$, where $\|x\| = \|\sum_{i=1}^n b_i x_i\|_X$. The operator $T:
+% \tilde{X} \rightarrow X$ defined by $T(x) = \sum_{i=1}^n b_i x_i$ is then an
+% isometry from $\tilde{X}$ to $\tilde{Y}$.  
+
+\paragraph{\bf Banach-Mazur Distance between Normed Spaces.}
+
+To conclude, we explain how to measure the distance between normed spaces. This
+will turn out to be analoguous to measuring the Banach-Mazur distance of the
+norm balls for different norms on some $\R^n$. Given two normed spaces $X,Y$, we
+define the Banach-Mazur distance $d(X,Y)$ is given by
+\begin{equation}
+d(X,Y): \inf \set{\|T\|_{\rm op} \|T^{-1}\|_{\rm op}: T: X \rightarrow Y \text{
+invertible linear operator } }.
+\end{equation}
+Note that the operator norm of $T^{-1}$ is as an operator from $Y$ to $X$. The
+following lemma explains the relevance of this definition and the relation to
+Banach-Mazur distance of convex sets. 
+
+\begin{lemma} 
+Let $X,Y$ be normed spaces and let $T \in \mathcal{B}(X,Y)$ be
+invertible. Then the following holds:
+\begin{itemize}
+\item $\frac{1}{\|T^{-1}\|_{\rm op}} \|x\|_X \leq \|Tx\|_Y \leq \|T\|_{\rm op}
+\|x\|_X$ for all $x \in X$.
+\item $\frac{1}{\|T^{-1}\|_{\rm op}} B_Y \subseteq T(B_X) \subseteq \|T\|_{\rm
+op} B_Y$.
+\end{itemize}
+\end{lemma}
+\begin{proof}
+Let $x \in X$, by definition of the operator norm of $T$ and $T^{-1}$, we have
+$\|Tx\|_Y \leq \|T\|_{\rm op}\|x\|_X$ and $\|x\|_X = \|T^{-1} T x\|_X \leq
+\|T^{-1}\|_{\rm op} \|T x\|_Y$. This proves the first statement.
+
+We prove the second statement. By part 1, we have that $\|T x\|_Y \leq
+\|T\|_{\rm op} \Leftrightarrow Tx \in \|T\|_{\rm op} B_Y$ for all $x \in X,
+\|x\|_X \leq 1 \Leftrightarrow x \in B_X$. This establishes $TB_X \subseteq
+\|T\|_{\rm op} B_Y$. For $y \in B_Y$, note that $\|T^{-1} y\|_X \leq
+\|T^{-1}\|_{\rm op} \Leftrightarrow T^{-1} y \in \|T^{-1}\|_{\rm op} B_X$. Thus,
+we get that $T^{-1} B_Y \subseteq \|T^{-1}\|_{\rm op} B_X \Leftrightarrow B_Y
+\subseteq \|T^{-1}\|_{\rm op} T B_X$, as needed. 
+\end{proof}
+
+The spaces $X,Y$ are called isometric if $d(X,Y) = 1$. If the infimum is
+attained, note that this means that there exists an invertible $T: X
+\rightarrow Y$, such that that $\|Tx\|_Y = \|x\|_X$ for all $x \in X$. As
+before, in finite dimensions (as with Banach-Mazur distance between convex
+bodies), one can use compactness to argue that the infimum is always attained.
+It is a nice exercise to check that any two Hilbert spaces of same dimension are
+in fact isometric under this definition.
+
+Exactly as before, one can check that the Banach-Mazur distance between normed
+spaces is submultiplicative. That is, $d(X,Z) \leq d(X,Y) d(Y,Z)$ for any three
+normed spaces $X,Y,Z$. Furthermore, for reflexive spaces $X,Y$ (i.e.~all finite
+dimensional spaces), one can verify that $d(X,Y) = d(X^*,Y^*)$ using the
+relation $\|T\|_{\rm op} = \|T^*\|_{\rm op}$. Note that reflexivity ensures that
+if $T: X^* \rightarrow Y^*$ then $T^*: Y^{**} \rightarrow X^{**}$ can be
+canonical identified with an operator from $Y$ to $X$ of the same norm. 
+
+Spaces for which the Banach-Mazur distance is finite are called isomorphic. In
+finite dimensions all normed spaces of same dimension are isomorphic, so this
+definition is mostly interesting for infinite dimensional spaces. We note that
+when $X,Y$ are Banach spaces by the open mapping theorem, if $\|T\|_{\rm op} <
+\infty$ and $T$ is invertible, then automatically $\|T^{-1}\|_{\rm op} < \infty$
+(and hence $X,Y$ are isomorphic). 
+
+\bibliographystyle{alpha}
+\bibliography{lecture-0}
+
+\end{document}

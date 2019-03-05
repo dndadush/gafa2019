@@ -1,20 +1,101 @@
 \input{../headers/exercise-header}
 
 %switch between show/hide solutions given by \solution
-%\newif\ifsolutions\solutionsfalse
-\newif\ifsolutions\solutionstrue
+\newif\ifsolutions\solutionsfalse
+%\newif\ifsolutions\solutionstrue
 
 \begin{document}
 
 \ifsolutions
 \exercisesol{1}
 \else
-\exercisedesc{1}{13/02/18}
+\exercisedesc{1}{12/02/19}
 \fi
 
-\begin{exercise}
-BLAH.
+\begin{exercise}[Exact Volume of $\ell_p$ Balls]~\\
+Let $\Gamma(a) = \int_0^\infty t^{a-1} e^{-t} dt$, $a > 0$ denote the Gamma function.
+You will prove that
+\[
+{\rm vol}_n(B_p^n) = (2\Gamma(1/p)/p)^n/\Gamma(n/p+1).
+\]
+\begin{enumerate}
+\item Show that $\int_{\R^n} e^{-\|x\|_p^p} dx = (2\Gamma(1/p)/p)^n$. \\
+\hint{Split the integral along each coordinate and apply a change of variables.}
+\item Show that $\int_{\R^n} e^{-\|x\|_p^p} dx = {\rm vol}_n(B_p^n) \Gamma(n/p+1)$.
+\\
+\hint{Use the identity $e^{-\|x\|_p^p} = \int_{\|x\|_p}^\infty p t^{p-1}
+e^{-t^p} dt$}
+\end{enumerate}
 \end{exercise}
-\solution{YOINK.}
+\solution{
+}
 
+\begin{exercise}[Duality between $\ell_2$ norm minimization and ellipsoid
+maximation]~\\
+Let $A \in \R^{m \times n}$ be a non-singular matrix and $b \in \R^n$. 
+\begin{enumerate}
+\item Show that 
+\[
+\min \set{\|x\|_2: x \in \R^m, A^t x = b} \geq \max \set{ y^t b: y \in \R^n, \|A
+y\|_2 \leq 1}.
+\]
+\hint{Use Cauchy-Schwarz.}
+\item Show that the value of both systems is equal to
+$\sqrt{b^t (A^t A)^{-1} b}$ and hence both have same value.
+\hint{Use the fact that $\|A y\|_2 \leq 1$ defines an ellipsoid.}
+\item Let $A_1,\dots,A_k$ be matrices where $A_i \in \R^{m_i \times n}$, $i \in
+[k]$, let $\lambda_1,\dots,\lambda_k > 0$ and $b \in \R^n$. Assume that
+$\sum_{i=1}^k \lambda _i A_i^t A_i \succ 0$ (positive definite). Use
+the above to show that the systems  
+\begin{align*}
+&1.~ \min \set{\sqrt{\sum_{i=1}^k \lambda_i \|x_i\|^2}: x_i \in \R^{m_i}, i \in [k],
+\sum_{i=1}^k \lambda_i A_i^t x_i = b} \\
+&2.~ \max \set{ b^t y: y \in \R^n, \sum_{i=1}^k \lambda_i \|A_i y\|^2 \leq 1}
+\end{align*}
+are strong duals to each other. That is, show that  any solution to $(1)$ has
+value at least that of $(2)$, and the optimal solutions have same value.
+\end{enumerate}
+\end{exercise}
+\solution{
+}
+
+\begin{exercise}[$1/n$-Concavity of Determinant]
+Let $A,B \succ 0$ be $n \times n$ positive definite matrices.
+\begin{enumerate}
+\item Show that $\det(A)^{1/n} = \min \set{{\rm tr}(AX)/n: X \succ 0,
+\det(X)=1}$, where equality on the right hand side is uniquely attained at 
+$X = A^{-1} \det(A)^{1/n}$. 
+\hint{Recall that the trace of a matrix is the sum of the eigenvalues
+while the determinant is the product. Compare the two via the arithmetic
+mean - geometric mean (AM-GM) inequality.}
+\item Conclude that for $\lambda \in (0,1)$, 
+$\det(\lambda A)^{1/n} + (1-\lambda) \det(B)^{1/n} \leq \det(\lambda A +
+(1-\lambda)B)^{1/n}$ with equality iff $A \in \R_+ B$. 
+\end{enumerate}
+\end{exercise}
+\solution{
+}
+
+\begin{exercise}[Approximation by a Simplex]~\\
+Let $K \subset \R^n$ be a convex body. Let $\Delta = {\rm
+conv}(p_1,\dots,p_{n+1})$ denote a maximum volume simplex contained in $K$ and
+let $c = \sum_{i=1}^{n+1} p_i/(n+1)$ denote its center.
+\begin{enumerate}
+\item Show that such a simplex exists and give an example body $K$ where it is
+not unique.
+\item For $i \in [n+1]$, let $\eta_i$ denote a unit normal to the hyperplane
+$H_i = {\rm aff.hull}(p_j: j \in [n+1] \setminus \set{i})$, pointing in the
+direction of $p_i$, and let $s_i \in \R^n$ satisfy $H_i = \{x \in \R^n:
+\pr{\eta_i}{x} = s_i\}$ (note that by assumption $\pr{\eta_i}{p_i} > s_i$).
+Prove that
+\[
+K \subseteq \set{x \in \R^n: |\pr{\eta_i}{x}-s_i| \leq \pr{\eta_i}{p_i}-s_i}.
+\]
+\hint{Show that if not one can replace $p_i$ to make a simplex of larger
+volume.} 
+\item Conclude that $\Delta-c \subseteq K-c \subseteq (n+2)(\Delta-c)$.
+\end{enumerate}
+\end{exercise}
+\solution{
+}
 \end{document}
