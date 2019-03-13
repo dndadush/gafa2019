@@ -1,0 +1,495 @@
+\documentclass[11pt]{article}
+
+\usepackage{mathtools}
+\usepackage[sc]{mathpazo}
+\linespread{1.05}         % Palatino needs more leading (space between lines)
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{accents}
+\usepackage{ntheorem}
+\usepackage{latexsym}
+\usepackage{xspace}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage[ruled]{algorithm2e}
+\usepackage{float}
+\usepackage{subfigure}
+\usepackage{color}
+\usepackage{fullpage}
+
+%%%%%%%% THEOREM TYPE ENVIRONMENTS
+\theoremheaderfont{\scshape}
+\theorembodyfont{\slshape}
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\theoremstyle{plain}
+\theorembodyfont{\rmfamily}
+\newtheorem{problem}{Problem}
+\newtheorem{observation}[theorem]{Observation}
+\newtheorem{remark}[theorem]{Remark}
+\theorembodyfont{\itshape}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{assumption}[theorem]{Assumption}
+\newtheorem{claim}[theorem]{Claim}
+\newenvironment{proof}{\noindent {\sc Proof:}}{$\Box$ \medskip}
+\newenvironment{proofof}[1]{\noindent {\sc Proof of #1:}}{$\Box$ \medskip}
+\theoremstyle{plain}
+\theorembodyfont{\normalfont}
+\theoremheaderfont{\normalfont\bfseries}
+\newtheorem{exercise}{Exercise}
+
+%%%%%%% FORMATTING
+\setlength{\topmargin}{-0.5in}
+\setlength{\textwidth}{6.5in} % can be up to 6.5
+\setlength{\textheight}{9in}
+\setlength{\evensidemargin}{-.1in}
+\setlength{\oddsidemargin}{-.1in}
+
+\newcounter{lecnum}
+\definecolor{hintgray}{gray}{0.40}
+\newcommand{\hint}[1]{\textcolor{hintgray}{(Hint:~ #1)}}
+
+\newcommand{\lecture}[3]{%
+\newpage %
+\setcounter{lecnum}{#1}%
+\setcounter{page}{1}%
+
+ \thispagestyle{fancy}
+ \headheight 45pt
+ \lhead{\bf{Mastermath, Spring 2019 \\ Geometric Functional Analysis} \vspace{.5em}\\ \hspace{1em}}
+ \chead{{\Large \bf Lecture #1} \vspace{.5em} \\ \hrule height .5mm \hfill \\ {\bf \Large #2}}
+ \rhead{\bf{Lecturers: D. Dadush, J. Briet \\ Scribe: #3} \vspace{.5em} \\ \hspace{1em}}
+ \renewcommand{\headrulewidth}{1.2pt}
+ \hspace{1em} \vspace{6pt}
+}
+
+%%%%%%%%% MACROS (ADD YOURS HERE)
+\newcommand{\set}[1]{\{{#1}\}}
+\newcommand{\T}{\ensuremath{\mathsf{T}}}
+\newcommand{\C}{\ensuremath{\mathbb{C}}}
+\newcommand{\R}{\ensuremath{\mathbb{R}}}
+\newcommand{\Z}{\ensuremath{\mathbb{Z}}}
+\newcommand{\N}{\ensuremath{\mathbb{N}}}
+\newcommand{\E}{\ensuremath{\mathbb{E}}}
+\newcommand{\pr}[2]{\langle{#1, #2}\rangle}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\vol}{{\rm vol}}
+\renewcommand{\epsilon}{\varepsilon}
+
+\begin{document}
+
+\lecture{1}{Geometry and Distances of $\ell_p^n$ Spaces}{D. Dadush}
+
+In these notes, we will give good estimates of the ``size'' of the $\ell_p^n$
+unit balls and tight bounds on the distances between $\ell_p^n$ spaces.
+
+\paragraph{\bf Comparing $\ell_p$ norms.} We begin with the basic comparison
+inequalities for the $\ell_p$ norms on $\R^n$.
+
+\begin{lemma}
+For $1 \leq p < q \leq \infty$, $x \in \R^n$, the following holds:
+\[
+\|x\|_q \leq \|x\|_p \leq n^{1/p-1/q}\|x\|_q.
+\]
+Furthermore, the equality cases satisfy:
+\begin{enumerate}
+\item $\|x\|_q = \|x\|_p$ iff $x$ has at most one non-zero coordinate.
+\item $\|x\|_p = n^{1/p-1/q}\|x\|_q$ iff $|x_1|=\cdots=|x_n|$. 
+\end{enumerate}
+\label{lem:p-q}
+\end{lemma}
+\begin{proof}
+We prove the above for $1 < p < q < \infty$, leaving the remaining cases ($p =
+1$ or $q = \infty$) as a simple exercise. For the first inequality, we see that 
+\begin{align*}
+\|x\|_q &= (\sum_{i=1}^n |x_i|^q)^{1/q} 
+        \leq (\max_{i \in [n]} |x_i|^{q-p} \sum_{i=1}^n |x_i|^p)^{1/q} 
+        = (\max_{i \in [n]} |x_i|)^{(q-p)/q} \cdot \|x\|_p^{p/q} \\
+        &\leq ((\sum_{i \in [n]} |x_i|^p)^{1/p})^{(q-p)/q} \cdot \|x\|_p^{p/q} 
+        = \|x\|_p^{(q-p)/q} \cdot \|x\|_p^{p/q} = \|x\|_p .
+\end{align*}
+For the equality condition here, note that the second inequality can only be
+tight if $\max_{i \in [n]} |x_i|^p = \sum_{i \in [n]} |x_i|^p$, which is clearly
+iff $x$ at most one non-zero coordinate. Since the first inequality is also
+tight if $x$ has at most non-zero coordinate (note we also have tightness if all
+the non-zero coordinates have the same absolute value in this setting), this
+fully describes the equality condition.
+
+For the second inequality, we apply Holder's inequality with $1/r = p/q$ and
+$1/s = (q-p)/q$, to get 
+\begin{align*}
+\|x\|_p &= (\sum_{i=1}^n |x_i|^p \cdot 1)^{1/p}
+\leq ((\sum_{i=1}^n |x_i|^{pr})^{1/r}  (\sum_{i=1}^n 1^{s})^{1/s}))^{1/p}
+= (\sum_{i=1}^n |x_i|^q)^{1/q} \cdot n^{(q-p)/(pq)} = \|x\|_q \cdot n^{1/p-1/q}. 
+\end{align*}
+Recall that equality for Holder's inequality holds above iff for some constant
+$c \geq 0$ we have $|x_i|^q = c \cdot 1$, $\forall i \in [n]$. Equivalently iff
+$|x_1|=\cdots=|x_n|$ as needed. 
+\end{proof}
+
+As a direct corollary to the above, we get the following inclusions and distance
+upper bounds:
+
+\begin{corollary} For $1 \leq p \leq q \leq \infty$, the following holds:
+\begin{enumerate}
+\item $B_p^n \subseteq B_q^n \subseteq n^{1/p-1/q} B_p^n$.
+\item $d(\ell_p^n,\ell_q^n) \leq n^{1/q-1/q}$.
+\end{enumerate}
+\label{cor:p-q}
+\end{corollary}
+\begin{proof}
+For part $1$, note that the first inclusion $B_p^n \subseteq B_q^n
+\Leftrightarrow \|x\|_q \leq \|x\|_p,~\forall x \in \R^n$ and the second $B_q^n
+\subseteq n^{1/p-1/q} B_p^n \Leftrightarrow \|x\|_p \leq n^{1/p-1/q}
+\|x\|_q,~\forall x \in \R^n$. As these inequalities are exactly those
+in~\ref{lem:p-q}, the statement follows.
+
+For part $2$, we examine the identity map $I_n$ on $\R^n$ as a map from
+$\ell_p^n$ to $\ell_q^n$. To upper bound $d(\ell_p,\ell_q)$ by $n^{1/p-1/q}$, it
+suffices to show that $\|I_n\|_{p \rightarrow q} \|I_n\|_{q \rightarrow p} \leq
+n^{1/p-1/q}$. From here, we have that bounds $\|I_n\|_{p \rightarrow q} \leq 1$
+since $\|x\|_q \leq \|x\|_p$ and $\|I_n\|_{q \rightarrow p} \leq n^{1/p-1/q}$
+since $\|x\|_p \leq n^{1/p-1/q} \|x\|_q$, as needed. 
+\end{proof}
+
+\paragraph{\bf Volumes of $B_p^n$ balls.} We will now compute useful bounds on
+the volumes of the $B_p^n$ balls.  Since for any measurable set $A \subseteq
+\R^n$, we have $\vol_n(t A) = t^n \vol_n(A)$ (i.e.~$n$-homogeneity of volume)
+for $t \geq 0$, a reasonable measure of the ``size'' of $A$ is its normalized
+volume $\vol_n(A)^{1/n}$. Somewhat surprisingly, we will be able to estimate
+these normalized volumes of all $B_p^n$ balls up to a constant factor by simply
+comparing the extreme cases, the octahedron $B_1^n$ and cube $B_\infty^n =
+[-1,1]^n$.
+
+Before starting these computations, we first give the $n$-dimensional analog of
+the ``base'' $\times$ ``height'' volume in $\R^2$.
+
+\begin{lemma} Let $A \subseteq \R^{n-1}$ be measurable and $t \geq 0$. Then
+\[
+\vol_n(\set{(x,s): x \in (s/t) A, s \in [0,t]}) = \frac{t}{n} {\rm
+vol}_{n-1}(A).
+\]
+Furthermore, if $A$ is convex then the convex hull 
+\[
+{\rm conv}((A,0) \cup \{(0,t)\}) = \set{(x,s): x \in (s/t) A, s \in [0,t]} .
+\]
+\label{lem:base-height}
+\end{lemma}
+\begin{proof}
+For the first part, by Fubini
+\begin{align*}
+\vol_n(\set{(x,s): x \in (s/t) A, s \in [0,t]}) 
+&= \int_0^t \int_{\R^{n-1}} 1_{x \in (s/t) \in A} dx ds \\
+&= \int_0^t \vol_{n-1}((s/t) A) ds
+= \vol_{n-1}(A) \int_0^t (s/t)^{n-1} ds \\
+&= \vol_{n-1}(A) \cdot t \int_0^1 s^{n-1} ds
+= \vol_{n-1}(A) \cdot t/n ,
+\end{align*}
+as needed. We leave the furthermore as an exercise to the reader.
+\end{proof}
+
+We give our estimates for the volume of the $\ell_p^n$ balls below:
+
+\begin{lemma} For $n \geq 1$, the following holds:
+\begin{enumerate}
+\item $\vol_n(B_\infty^n)^{1/n} = 2$.
+\item $\vol_n(B_1^n)^{1/n} = 2/(n!)^{1/n} \leq 2e/n$.
+\item For $p \in (1,\infty)$, we have
+\[
+2 n^{-1/p} = \vol_n(n^{-1/q} B_\infty^n)^{1/n} \leq {\rm
+vol}_n(B_p^n)^{1/n} \leq \vol_n(n^{1-1/q} B_1^n) \leq 2e n^{-1/p}.
+\] 
+\end{enumerate}
+\label{lem:vol-p}
+\end{lemma}
+\begin{proof}
+For part 1, we have that $\vol_n(B_\infty^n)^{1/n} = \vol_n([-1,1]^n)^{1/n} =
+\vol_1([-1,1]) = 2$. 
+
+For part 2, let $\Delta_n = \set{x \in \R^n: x \geq 0, \sum_{i=1}^n x_i \leq
+1}$. By symmetry, 
+\begin{align*}
+\vol_n(B_1^n) &= \vol_n(\set{x \in \R^n: \sum_{i=1}^n |x_i| \leq 1})
+= \vol_n(\cup_{s \in \set{-1,1}^n} \set{(x_1 s_1, \dots, x_n s_n) \in \R^n: x
+\geq 0, \sum_{i=1}^n x_i \leq 1}) \\
+&= \sum_{s \in \set{-1,1}^n} \vol_n(\set{(x_1 s_1, \dots, x_n s_n) \in \R^n: x \in
+\Delta_n})
+= 2^n \vol_n(\Delta_n) .
+\end{align*}
+Above, the second to last equality holds since the intersections have measure zero and
+the last equality holds since the linear map $(x_1,\dots,x_n)
+\rightarrow (x_1 s_1,\dots,s_n x_n)$ is measure preserving for $s \in \set{-1,1}^n$. 
+
+From here, for $n=1$, note that $\Delta_1 = [0,1]$ and hence ${\rm
+vol}_1(\Delta_1) = 1$. For $n \geq 2$, it is direct to verify that $\Delta_n =
+{\rm conv}((\Delta_{n-1},0) \cup \set{(0,0)})$. Therefore, by
+Lemma~\ref{lem:base-height}, we get that $\vol_n(\Delta_n) =
+\vol_{n-1}(\Delta_{n-1})/n$. Thus, by induction, $\vol_n(\Delta_n) = 1/(n!)$.
+This yields the exact formula $\vol_n(B_1^n)^{1/n} = 2 \vol_n(\Delta_n)^{1/n} =
+2/(n!)^{1/n}$. Using the inequality $n^n/(n!) \leq e^n$ (i.e.~expand the Taylor
+series), we conclude that $\vol_n(B_1^n)^{1/n} \leq 2e/n$, as desired. 
+
+For part $3$, it follows directly the parts $1$ and $2$ combined with the
+inclusions in Corollary~\ref{cor:p-q} part $1$, namely $n^{-1/p} B_\infty^n
+\subseteq B_p^n \subseteq n^{1-1/p} B_1^n$.
+\end{proof}
+
+We note that it is perhaps surprising that the most ``obvious'' sandwiching
+$B_1^n \subseteq B_p^n \subseteq B_\infty^n$ yields lower and upper normalized
+volume estimates that are a $\Theta(n)$ factor off from each other. The fact
+that the ``reverse'' inclusions are tighter suggests that most of the volume of
+the cube $B_\infty^n$ is close to its vertices while most of the volume of
+$B_1^n$ is close to the center of its facets. We note that computing an exact
+expression for the volume of the $\ell_p^n$ balls can be done relatively simply
+and will be the subject of one of the exercises.
+
+\paragraph{\bf Distances between $\ell_p^n$ spaces.}
+
+We will now show that one can get constant factor tight estimates for the
+Banach-Mazur distance between $\ell_p^n$ and $\ell_q^n$ for all ranges of $p$
+and $q$. In general, it is extremely difficult to compute good estimates for the
+Banach-Mazur distance between normed spaces. In particular, lower bounds must
+hold against any possible way of mapping one space bijectively into the other.
+The $\ell_p^n$ spaces are indeed one of the very few classes spaces for which
+these distances are known and thus give nice examples for how such bounds can be
+proved. 
+
+The general formula for the distance between $\ell_p^n$ spaces is given below. 
+
+\begin{theorem}[$\ell_p^n$ distances]
+\label{thm:p-q-distance}
+For $n \in \N$, $1 \leq p \leq q \leq \infty$, the following holds:
+\begin{equation}
+\label{eq:p-q-distance}
+d(\ell_p,\ell_q) = \begin{cases}  n^{1/p-1/q}:& p \leq q \leq 2 \text{ or }
+2 \leq p \leq q \\
+\Theta(\max \set{n^{1/p-1/2},n^{1/2-1/q}}):& p \leq 2 \leq q
+\end{cases}.
+\end{equation}
+\end{theorem}
+
+The formulas above are self-dual, i.e.~they are invariant under $(p,q)
+\rightarrow (q/(q-1),p/(p-1))$ (note the order switches as we ask for $p \geq q$
+for the formulas to be valid), which one would expect since Banach-Mazur
+distance is invariant under duality in finite dimensions. The precise distances
+are known only for the range $2 \leq p \leq q$ and $p \leq q \leq 2$, where it
+will turn out that the identity map is optimal. For the range $p \leq 2 \leq q$,
+the formula suggests that $d(\ell_p^n,\ell_q^n) = \Theta(1) \max
+\set{d(\ell_p,\ell_{p/p-1}),d(\ell_q^n,\ell_{q/(q-1)})}$, is the maximum
+distance between $\ell_p^n,\ell_q^n$ and their respective duals. Thus in this
+range, we are in fact measuring the distance to one's dual. In this setting, the
+optimal map will no longer be the identity and instead will be a certain
+Hadamard like orthogonal transformation.
+
+An important point given by the formulas is that the maximum distance between
+any $\ell_p^n$ and $\ell_q^n$ is in fact $\Theta(\sqrt{n})$, which is achieved
+only for the settings $(p,q) \in \set{(1,2),(2,\infty),(1,\infty)}$. As we will
+see in the next lectures, in the worst-case, any two $n$-dimensional normed
+spaces are at distance at most $n$. In fact, we will show that any
+$n$-dimensional normed space is at distance at most $\sqrt{n}$ from $\ell_2^n$,
+which we see is tight from $\ell_2^n$ vs $\ell_1^n$ or $\ell_\infty^n$. For a
+detailed accounting of the subject of Banach-Mazur distances, we encourage the
+reader to consult the monograph of Tomczak-Jaegermann~\cite{TJ89}.
+
+Interestingly, all of the above bounds are essentially achieved by
+``interpolating'' through the extreme cases $(p,q) \in
+\set{(1,2),(2,\infty),(1,\infty)}$. The arguments are mostly elementary with the
+exception of proving upper bounds on the distances for the ranges $p \leq 2 \leq
+q$, where we will need non-obvious upper bounds on the $p$ to $q$ operator norm
+of a Hadamard like transformation. For this purpose, we will rely on the
+Riesz-Thorin interpolation theorem, which we state below:
+
+\begin{theorem}[Riesz-Thorin Interpolation] 
+\label{thm:riesz-thorin}
+Let $T \in \mathcal{L}(\R^m,\R^n)$.  Let $p_1,p_2,q_1,q_2 \in [1,\infty]$,
+$\theta \in (0,1)$. Define $p_\theta,q_\theta \in [2,\infty]$ to be 
+\begin{align*}
+p_\theta &= (\theta/p_1 + (1-\theta)/p_2)^{-1} ,\\
+q_\theta &= (\theta/q_1 + (1-\theta)/q_2)^{-1} ,
+\end{align*}
+the corresponding harmonic averages of $p_1,p_2$ and $q_1,q_2$. Then
+\[
+\|T\|_{p_\theta \rightarrow q_\theta} \leq \|T\|_{p_1 \rightarrow
+q_1}^{\theta}\|T\|_{p_2 \rightarrow q_2}^{1-\theta}.
+\]
+\end{theorem} 
+
+The above theorem allows us to get upper bounds on operator norms that are ``in
+between'' bounds we already know. The proof relies on the concept of complex
+interpolation of Banach spaces and Hadamard's three lines lemma, which we may
+cover towards the end of the course. We content ourselves for now on using this
+theorem as a black-box, as it will allow us to get the full picture for
+distances between $\ell_p^n$ spaces.
+
+% Before presenting the formal proofs, we give brief geometric sketch here (the
+% formal proofs will use a mixture of geometric and operator theoretic reasoning).
+% Recall that from the geometric perspective, the Banach-Mazur distance
+% between $\ell_p^n$ and $\ell_q^n$ is the same the distance between the norm
+% balls $B_p^n$ and $B_q^n$. That is, we would like to find upper and lower bounds
+% on the smallest number $d_{p,q}$ such that there exists a linear transformation
+% $T$ such that $T B_p^n \subseteq B_q^n \subseteq d_{p,q} TB_p^n$.
+
+We now prove distance bounds for the base cases $p,q \in \set{1,2,\infty}$.
+
+\begin{lemma}
+For $n \in N$, the following holds:
+\begin{enumerate}
+\item $d(\ell_1^n,\ell_2^n) = d(\ell_2^n,\ell_\infty^n) = \sqrt{n}$.
+\item $d(\ell_1^n,\ell_\infty^n) = \Theta(\sqrt{n})$.
+\end{enumerate}
+\label{lem:base-cases}
+\end{lemma}
+
+\begin{proof}
+For part $1$, by duality it suffices to prove the bound for $\ell_2^n$ and
+$\ell_\infty^n$. By corollary~\ref{cor:p-q}, we have that
+$d(\ell_2^n,\ell_\infty^n) \leq \sqrt{n}$. Thus it suffices to prove the lower
+bound. Let $T \in \mathcal{L}(\R^n)$ be invertible. By
+scaling, we may assume that $\|T\|_{2 \rightarrow \infty} = 1$ and thus must
+prove that $\|T^{-1}\|_{\infty \rightarrow 2} \geq \sqrt{n}$. To prove the lower
+bound on the operator, for the standard basis $e_1,\dots,e_n \in \R^n$, note
+that $1 = \|e_i\|_\infty \leq \|T\|_{2 \rightarrow \infty} \|T^{-1} e_i\|_2 =
+\|T^{-1} e_i\|_2$.
+
+Let $\eps_1,\dots,\eps_n$ be uniform $\set{-1,1}$ random variables. From here,
+by the parallelogram law, we have that
+\[
+\E[\|T^{-1}(\sum_{i=1}^n \eps_i e_i)\|_2^2] = \E[\sum_{i,j \in [n]} \eps_i
+\eps_j \pr{T^{-1} e_i}{T^{-1} e_j}] = \sum_{i=1}^n \pr{T^{-1} e_i}{T^{-1} e_i} =
+\sum_{i=1}^n \|T^{-1} e_i\|_2^2 \geq n.
+\]
+The second to last equality above follows since $\eps_i^2 = 1$, $~\forall i \in
+[n]$, and $\E[\eps_i \eps_j] = \E[\eps_i]\E[\eps_j] = 0$ for $i \neq j$. Given
+the above, by averaging, there must exist signs $\eps_1,\dots,\eps_n \in
+\set{-1,1}$ such that $\|T^{-1}(\sum_{i=1}^n \eps_i e_i)\|_2 \geq \sqrt{n}$.
+Since $\|\sum_{i=1}^n \eps_i e_i\|_\infty = 1$, this proves that
+$\|T^{-1}\|_{\infty \rightarrow 2} \geq \sqrt{n}$, as needed.
+
+We now prove part $2$. We begin with the lower bound, which will use volumetric
+information. Let $T \in \mathcal{L}(\R^n)$ be invertible.
+Again by scaling, we may assume that $\|T\|_{1 \rightarrow \infty} = 1$ and thus
+we must show that $\|T^{-1}\|_{\infty \rightarrow 1} = \Omega(\sqrt{n})$. By the
+first condition, we see that $\|Te_i\|_2 \leq \sqrt{n} \|T e_i\|_\infty \leq
+\sqrt{n} \|T\|_{1 \rightarrow \infty} \|e_i\|_1 \leq \sqrt{n}$. By Hadarmard's
+inequality, we in fact have that 
+\[
+|\det(T)|^{1/n} \leq (\prod_{i=1}^n \|Te_i\|_2)^{1/n} \leq \sqrt{n}
+\]
+Recalling that $B_\infty^n \subseteq \|T^{-1}\|_{\infty \rightarrow 1} TB_1^n$,
+we must have 
+\begin{align*}
+\vol_n(B_\infty^n)^{1/n} &\leq \vol_n(\|T^{-1}\|_{\infty \rightarrow 1} (TB_1^n))^{1/n}
+\Leftrightarrow \\
+\frac{\vol_n(B_\infty^n)^{1/n}}{|\det(T)|^{1/n}\vol_n(B_1^n)^{1/n}} &\leq
+\|T^{-1}\|_{\infty \rightarrow 1} 
+\Rightarrow \\
+\sqrt{n}/e &\leq \|T^{-1}\|_{\infty \rightarrow 1},
+\end{align*}
+as needed.
+
+For the upper bound, we prove it when $n$ is a power of $2$, leaving the general
+case as an exercise. For $n$ a power of $2$, we will map $\ell_1^n$ to
+$\ell_\infty^n$ using the so-called Hadamard transform $H_n$. For each $i \in
+[n]$, let $b(i) \in \set{0,1}^{\log_2 n}$ denote the binary expansion of $i-1$,
+i.e.~$i-1 = \sum_{j=0}^{\log_2 n-1} 2^{j} b_{j+1}$. Note that $b:[n] \rightarrow
+\set{0,1}^{\log_2 n}$ is clearly bijective when $n$ is a power of $2$. With
+this indexing, we may express the coefficient matrix of $H_n$ by $(H_n)_{ij} =
+(-1)^{\pr{b(i)}{b(j)}}$, $\forall i,j \in [n]$. It is an exercise to check that
+the columns of $H_n$ are orthogonal and all have $\ell_2$ norm $\sqrt{n}$. In
+particular, we get that $\|H_n x\|_2 = \sqrt{n} \|x\|_2 \Leftrightarrow
+\|H_n^{-1}x\|_2 = \|x\|_2/\sqrt{n}$ for all $x \in \R^n$. 
+We now show that $\|H_n\|_{1 \rightarrow \infty} \leq 1$ and
+$\|H_n^{-1}\|_{\infty \rightarrow 1} \leq \sqrt{n}$. The first inequality is
+direct since the columns of $H_n$ have entries in $\pm 1$. The second inequality
+is inequality is derived by comparing to $\ell_2$:
+\begin{align*}
+\|H_n^{-1}y\|_1 &\leq \sqrt{n}\|H_n^{-1}y\|_2 
+                = \|y\|_2 \leq \sqrt{n} \|y\|_\infty, ~\forall y \in \R^n.
+\end{align*}
+Thus, $\|H_n^{-1}\|_{\infty \rightarrow 1} \leq \sqrt{n}$ as needed. 
+\end{proof}
+
+We now use the above to prove Theorem~\ref{thm:p-q-distance}.
+
+\begin{proof}[Proof of Theorem~\ref{thm:p-q-distance}]
+We start with the range $p \leq q \leq 2$ or $2 \leq p \leq q$. By duality, we
+may restrict to range $2 \leq p \leq q$. Applying Lemma~\ref{lem:base-cases} part 1
+and Corollary~\ref{cor:p-q} part 2 together with submultiplicativy of
+Banach-Mazur distance, we see that
+\[
+\sqrt{n} = d(\ell^n_2,\ell^n_\infty) \leq d(\ell^n_2,\ell^n_p)
+d(\ell^n_p,\ell^n_q) d(\ell^n_q,\ell^n_\infty) \leq n^{1/2-1/p} n^{1/p-1/q}
+n^{1/q} = \sqrt{n}.
+\]
+Given that the left hand side and right hand side are equal, we must have
+equality throughout. In particular, we get $d(\ell^n_p,\ell^n_q) =
+n^{1/p-1/q}$. 
+
+We move to the range $p \leq 2 \leq q$. By duality, we may assume that $1/p-1/2
+\geq 1/2-1/q$. In contrast to the previous case, we will note be able to use the
+estimate $d(\ell_1,\ell_\infty) = \Theta(\sqrt{n})$ in a black-box manner,
+however the proof will be almost identical to the case of $\ell_1$ vs
+$\ell_\infty$.
+
+We begin with the lower bound. Let $T \in \mathcal{L}(\R^n)$ be invertible and
+assume that $\|T\|_{p \rightarrow q} = 1$. Let $d = \|T^{-1}\|_{q \rightarrow
+p}$. As before, we must prove that $d \geq \Omega(n^{1/p-1/2})$. Note that for
+$i \in [n]$,
+\[
+\|Te_i\|_2 \leq n^{1/2-1/q}\|Te_i\|_q 
+           \leq n^{1/2-1/q}\|T\|_{p \rightarrow q} \|e_i\|_q 
+           = n^{1/2-1/q},
+\]
+where the last equality holds by assumption on $T$. Therefore, by Hadamard's
+inequality $|\det(T)|^{1/n} \leq n^{1/p-1/2}$. Since $B_q^n \subseteq d TB_p^n$,
+using the volume bounds in Lemma~\ref{lem:vol-p}, we get as before that
+\[
+d \geq \frac{\vol_n(B_q^n)^{1/n}}{|\det(T)|^{1/n} \vol_n(B_p^n)^{1/n}}  
+  \geq n^{1/p-1/2}/e,
+\]
+as needed.
+
+For the upper bound, we assume as before that $n$ is a power of $2$, leaving the
+general case as an exercise. We use the Hadamard transformation $H_n$ as before.
+Recall that $\|H\|_{2 \rightarrow 2} = \sqrt{n}$ and $\|H\|_{1 \rightarrow
+\infty} = 1$. Let $\theta = 2/q$ where $p_\theta = (\theta \cdot 1/2 +
+(1-\theta) \cdot 1)^{-1} = q/(q-1)$ and $q_\theta = (\theta \cdot 1/2 +
+(1-\theta) \cdot 1/\infty) = q$. Note that $1/p_\theta + 1/q = 1$, so these form
+a dual pair. Furthermore, our assumption that $1/p + 1/q \geq 1 \Rightarrow
+p_\theta = q/(q-1) \geq p$. Since $\|x\|_{p_\theta} \leq \|x\|_p$, $\forall
+x \in \R^n$, we see that 
+\[
+\|H_n\|_{p \rightarrow q} 
+\leq \|H_n\|_{p_\theta \rightarrow q} = \|H_n\|_{p_\theta \rightarrow q_\theta}.
+\]
+From here, applying Riesz-Thorin interpolation (Theorem~\ref{thm:riesz-thorin}),
+we get that 
+\[
+\|H_n\|_{p_\theta \rightarrow q_\theta} \leq \|H_n\|_{2 \rightarrow 2}^{\theta}
+\|H_n\|_{1 \rightarrow \infty}^{1-\theta} = n^{1/q}.
+\]
+Thus $\|H_n\|_{p \rightarrow q} \leq n^{1/q}$. For the bound on $\|H_n^{-1}\|_{q
+\rightarrow p}$, we again compare directly to $\ell_2$, which gives
+\[
+\|H_n^{-1} y\|_p \leq n^{1/p-1/2} \|H_n^{-1} y\|_2 = n^{1/p-1} \|y\|_2
+\leq n^{1/p-1} (n^{1/2-1/q} \|y\|_q) = n^{1/p-1/2-1/q} \|y\|_q, \forall y \in
+\R^n.
+\]
+Thus, $\|H^{-1}\|_{q \rightarrow p} \leq n^{1/p-1/2-1/q}$.  This yields the
+final distortion bound 
+\[
+\|H_n\|_{p \rightarrow q} \|H_n^{-1}\|_{q \rightarrow p} \leq n^{1/q} \cdot
+n^{1/p-1/2-1/q} = n^{1/p-1/2},
+\]
+as needed.
+\end{proof}
+
+\bibliographystyle{alpha}
+\bibliography{references}
+
+\end{document}

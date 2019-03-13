@@ -1,15 +1,15 @@
 \input{../headers/exercise-header}
 
 %switch between show/hide solutions given by \solution
-\newif\ifsolutions\solutionsfalse
-%\newif\ifsolutions\solutionstrue
+%\newif\ifsolutions\solutionsfalse
+\newif\ifsolutions\solutionstrue
 
 \begin{document}
 
 \ifsolutions
 \exercisesol{1}
 \else
-\exercisedesc{1}{12/02/19}
+\exercisedesc{1}{02/26/19}
 \fi
 
 \begin{exercise}[Exact Volume of $\ell_p$ Balls]~\\
@@ -27,7 +27,46 @@ You will prove that
 e^{-t^p} dt$}
 \end{enumerate}
 \end{exercise}
+
 \solution{
+
+\begin{enumerate}
+\item By splitting up the integral along coordinates, we get that
+\begin{equation}
+\label{eq:1-1}
+\int_{\R^n} e^{-\|x\|_p^p} dx = \int_{\R^n} \prod_{i=1}^n e^{-|x_i|^p} dx
+~\underbrace{=}_{\text{Fubini}}~
+\prod_{i=1}^n \int_\R e^{-|x_i|^p} dx_i = (\int_{\R} e^{-|t|^p} dt)^n
+= (2 \int_0^\infty e^{t^p} dt)^n.
+\end{equation}
+Applying the change of variable $t \rightarrow t^{1/p}$, we see that
+\begin{equation}
+\label{eq:1-2}
+\int_0^\infty e^{t^p} dt = \frac{1}{p} \int_0^\infty t^{1/p-1} e^t dt =
+\frac{1}{p} \Gamma(1/p).
+\end{equation}
+Combining~\eqref{eq:1-1},~\eqref{eq:1-2}, get the desired expression
+\[
+\int_{\R^n} e^{-\|x\|_p^p} = (2\Gamma(1/p)/p)^n.
+\]
+\item Using the identity, we see that
+\begin{align}
+\int_{\R^n} e^{-\|x\|_p^p} dx 
+      &= \int_{\R^n} \int_{\|x\|_p}^\infty p t^{p-1} e^{-t^p} dt dx \nonumber \\
+      &= \int_{\R^n} \int_0^\infty 1[\|x\|_p \leq t] p t^{p-1} e^{-t^p} dt dx \nonumber \\ 
+      &= \int_0^\infty  p t^{p-1} e^{-t^p} \int_{\R^n} 1[\|x\|_p \leq t]dx dt 
+         \quad \left(\text{ by Fubini }\right) \nonumber \\
+      &= \int_0^\infty  p t^{p-1} e^{-t^p} \vol_n(tB_p^n) dt \nonumber \\
+      &= \int_0^\infty  p t^{p+n-1} e^{-t^p} \vol_n(B_p^n) dt \label{eq:1-3}.
+\end{align}
+Applying the change of variable $t \rightarrow t^{1/p}$ to the last line, we get
+\begin{equation}
+\label{eq:1-4}
+\int_0^\infty  p t^{p+n-1} e^{-t^p} dt = 
+\int_0^\infty  t^{n/p} e^{-t} dt = \Gamma(n/p+1).
+\end{equation}
+Combining~\eqref{eq:1-3},~\eqref{eq:1-4} yields the result.
+\end{enumerate}
 }
 
 \begin{exercise}[Duality between $\ell_2$ norm minimization and ellipsoid
@@ -36,27 +75,86 @@ Let $A \in \R^{m \times n}$ be a non-singular matrix and $b \in \R^n$.
 \begin{enumerate}
 \item Show that 
 \[
-\min \set{\|x\|_2: x \in \R^m, A^t x = b} \geq \max \set{ y^t b: y \in \R^n, \|A
+\min \set{\|x\|_2: x \in \R^m, A^\T x = b} \geq \max \set{ y^\T b: y \in \R^n, \|A
 y\|_2 \leq 1}.
 \]
 \hint{Use Cauchy-Schwarz.}
 \item Show that the value of both systems is equal to
-$\sqrt{b^t (A^t A)^{-1} b}$ and hence both have same value.
+$\sqrt{b^\T (A^\T A)^{-1} b}$ and hence both have same value.
 \hint{Use the fact that $\|A y\|_2 \leq 1$ defines an ellipsoid.}
 \item Let $A_1,\dots,A_k$ be matrices where $A_i \in \R^{m_i \times n}$, $i \in
 [k]$, let $\lambda_1,\dots,\lambda_k > 0$ and $b \in \R^n$. Assume that
-$\sum_{i=1}^k \lambda _i A_i^t A_i \succ 0$ (positive definite). Use
+$\sum_{i=1}^k \lambda _i A_i^\T A_i \succ 0$ (positive definite). Use
 the above to show that the systems  
 \begin{align*}
 &1.~ \min \set{\sqrt{\sum_{i=1}^k \lambda_i \|x_i\|^2}: x_i \in \R^{m_i}, i \in [k],
-\sum_{i=1}^k \lambda_i A_i^t x_i = b} \\
-&2.~ \max \set{ b^t y: y \in \R^n, \sum_{i=1}^k \lambda_i \|A_i y\|^2 \leq 1}
+\sum_{i=1}^k \lambda_i A_i^\T x_i = b} \\
+&2.~ \max \set{ b^\T y: y \in \R^n, \sum_{i=1}^k \lambda_i \|A_i y\|^2_2 \leq 1}
 \end{align*}
 are strong duals to each other. That is, show that  any solution to $(1)$ has
 value at least that of $(2)$, and the optimal solutions have same value.
 \end{enumerate}
 \end{exercise}
+
 \solution{
+\begin{enumerate}
+\item Let $x \in \R^m$ satisfy $A^\T x = b$ and $\|Ay\|_2 \leq 1$. 
+Then
+\[
+\|x\|_2 \geq \|Ay\|_2\|x\|_2 ~\underbrace{\geq}_{\text{Cauchy-Schwarz}}~
+(Ay)^\T x = y^\T b.
+\]
+\item Since $A$ is non-singular, note that $A^\T A$ is invertible.
+Furthermore, $((A^\T A)^{-1})^\T = ((A^\T A)^\T)^{-1} = (A^\T A)^{-1}$, so the
+inverse is symmetric. Let $y = (A^\T A)^{-1} b / \sqrt{b^\T (A^\T A)^{-1} b}$.
+From here, we get that 
+\begin{align*}
+y^\T b &= \sqrt{b^\T (A^\T A)^{-1} b} , \\
+\|Ay\|_2^2 &= y^\T (A^\T A) y  = b^\T (A^\T A)^{-\T} (A^\T A) (A^\T A)^{-1} b /
+(b^\T (A^\T A)^{-1} b) = 1 . \\
+\end{align*}
+Therefore the value of the right hand side program is at least $\sqrt{b^\T (A^\T
+A)^{-1} b}$. 
+
+Let $x = A(A^\T A)^{-1} b$. From here, we get that
+\begin{align*}
+A^\T x &= (A^\T A)(A^\T A)^{-1} b = b , \\
+\|x\|_2^2 &= x^\T x =  b^\T (A^\T A)^{-\T} (A^\T A) (A^\T A)^{-1} b = b^\T (A^\T
+A)^{-1} b.
+\end{align*}
+Thus the value of the left hand side program is at most $\sqrt{b^\T (A^\T
+A)^{-1} b}$. By Part 1, both programs therefore has the same value, as needed.
+
+\item Let $A \in \R^{m \times n}$, where $m = \sum_{i=1}^k
+m_i$, denote the block diagonal matrix 
+\[
+A = \begin{pmatrix} \sqrt{\lambda_1} A_1 \\ \sqrt{\lambda_2} A_2 \\ \dots
+\\ \sqrt{\lambda_k} A_k \end{pmatrix}.
+\]
+A direct computation reveals that $\|Ay\|_2^2 = \sum_{i=1}^k \lambda_i
+\|A_i y\|_2^2$. By Parts $1$ and $2$, we therefore have that
+\[
+\max \set{y^\T b: \sum_{i=1}^k \lambda_i \|A_iy\|_2^2 \leq 1} = 
+\min \set{\|x\|_2: x \in \R^m, A^\T x = b}.
+\] 
+We now work on the second hand program to get it in the desired form. 
+Let us decompose $x = (x_1,\dots,x_k)$, where $x_i \in \R^{m_i}$. From here, we
+see that
+\begin{align*}
+b &= A^\T x = \sum_{i=1}^k \sqrt{\lambda_i} A_i^\T x_i
+            = \sum_{i=1}^k \lambda_i A_i^\T (x_i/\sqrt{\lambda_i}), \\
+\|x\|^2 &= \sum_{i=1}^k \|x_i\|^2_2 = \sum_{i=1}^m \lambda_i
+\|x_i/\sqrt{\lambda_i}\|_2^2 .
+\end{align*}
+Therefore, letting $z_i = x_i/\sqrt{\lambda_i}$, $\forall i \in [k]$, we see
+that
+\[
+\min \set{\|x\|_2: x \in \R^m, A^\T x = b} = 
+\min \set{\sqrt{\sum_{i=1}^k \lambda_i \|z_i\|_2^2}: z_i \in \R^{m_i}, i \in
+[k], \sum_{i=1}^k \lambda_i A_i^\T z_i = b},
+\] 
+as needed.
+\end{enumerate}
 }
 
 \begin{exercise}[$1/n$-Concavity of Determinant]
@@ -73,7 +171,55 @@ $\det(\lambda A)^{1/n} + (1-\lambda) \det(B)^{1/n} \leq \det(\lambda A +
 (1-\lambda)B)^{1/n}$ with equality iff $A \in \R_+ B$. 
 \end{enumerate}
 \end{exercise}
+
 \solution{
+
+\begin{enumerate}
+\item Let $\lambda_1,\dots,\lambda_n > 0$ denote the eigen values
+of $A$. These are all positive since $A \succ 0$. 
+
+Let $X = A^{-1} \det(A)^{1/n}$. Recall that $\det(A) = \prod_{i=1}^n \lambda_i >
+0$ and that the eigenvalues of $A^{-1}$ are $1/\lambda_1,\dots,1/\lambda_n > 0$.
+Since $A^{-\T} = (A^{\T})^{-1} = A^{-1}$ is symmetric, $X$ is positive definite.
+Second, $\det(X) = \det(A^{-1}) (\det(A)^{1/n})^n = \det(A)^{-1} \det(A) = 1$.
+Thus, the value of the program is at most ${\rm tr}(X A)/n = \det(A)^{1/n} {\rm
+tr}(I_n)/n = \det(A)^{1/n}$. 
+
+Now take $X \succ 0$ such that $\det(X)=1$. Letting $X^{1/2}$ denote the unique
+positive definite square root of $X$, we see that $AX$ is similar to $X^{1/2}
+(AX) X^{-1/2} = X^{1/2} A X^{1/2}$. Since the latter is positive definite, $AX$
+has positive eigen values $\gamma_1,\dots,\gamma_n > 0$ and is diagonalizable.
+Furthermore, since $\det(AX) = \det(A) \det(X) = \det(A)$, we see that
+$\prod_{i=1}^n \gamma_i = \det(A)$. From here, we have that
+\[
+{\rm tr}(AX)/n = \sum_{i=1}^n \gamma_i/n \geq \prod_{i=1}^n \gamma_i^{1/n} = \det(A)^{1/n}
+\]
+where the first inequality is a consequence of the AM-GM inequality. By the
+equality conditions for AM-GM, the above inequality holds at equality iff
+$\gamma_1 = \gamma_2 = \cdots = \gamma_n = \det(A)^{1/n}$. Since $AX$ is
+diagonalizable, equality thus implies that $AX = \det(A)^{1/n} I_n$, where $I_n$
+is the $n \times n$ identity. That is, equality holds iff $X = A^{-1}
+\det(A)^{1/n}$ as needed.   
+
+\item From Part 1, we see that
+\begin{align*}
+\det(\lambda A + (1-\lambda) B)^{1/n}
+&= \min_{\det(X)=1,X \succ 0} {\rm tr}((\lambda A + (1-\lambda) B)X)/n \\
+&= \min_{\det(X)=1,X \succ 0} \lambda {\rm tr}(A X)/n + (1-\lambda) {\rm tr}(B X)/n \\
+&\geq \lambda \min_{\det(X)=1,X \succ 0} {\rm tr}(AX)/n + 
+      (1-\lambda) \min_{\det(X)=1,X \succ 0} {\rm tr}(BX)/n \\
+&= \lambda \det(A)^{1/n} + (1-\lambda) \det(B)^{1/n}. 
+\end{align*}
+By part 1, since $\lambda \in (0,1)$, the above holds at equality iff
+\[
+(\lambda A + (1-\lambda) B)^{-1} \det(\lambda A + (1-\lambda)B)^{1/n} =
+A^{-1} \det(A)^{1/n} = B^{-1} \det(B)^{1/n}. 
+\]
+The above implies that $A = B \det(A)^{1/n}/\det(B)^{1/n} \Rightarrow A \in \R_+
+B$. Now if $A \in \R_+ B$, since $A \succ 0$ this implies that $A = \gamma B$,
+with $\gamma > 0$. From here, it is direct to check the that equality
+conditions are satisfied, thus proving the statement.  
+\end{enumerate}
 }
 
 \begin{exercise}[Approximation by a Simplex]~\\
@@ -96,6 +242,81 @@ volume.}
 \item Conclude that $\Delta-c \subseteq K-c \subseteq (n+2)(\Delta-c)$.
 \end{enumerate}
 \end{exercise}
+
 \solution{
+\begin{enumerate}
+\item If $K = B_2^n$, then if $\Delta$ is a maximum volume simplex then so is $R
+\Delta$ where $R$ is any orthogonal transformation since $RB_2^n = B_2^n$ and
+$R$ is measure preserving. Since $\Delta$ is clearly a strict subset of $B_2^n$,
+the maximizer cannot be unique.
+
+\item Take $x \in K$. By the base times height formula in $\R^n$, we have that
+\begin{align*}
+\vol_n(p_1,\dots,p_{i-1},x,p_i,\dots,p_n) 
+&= \vol_{n-1}(p_1,\dots,p_{i-1},p_{i+1},\dots,p_n) \cdot {\rm dist}(H_i,x)/n \\
+&= \vol_{n-1}(p_1,\dots,p_{i-1},p_{i+1},\dots,p_n) \cdot |\pr{\eta_i}{x}-s_i|/n, 
+\end{align*}
+where ${\rm dist}(H_i,x)$ is the Euclidean distance between the hyperplane $H_i$
+and $x$. By the definition of $\Delta$, plugging in $p_i$ for $x$ above
+maximizes volume. Given the above formula, this implies that 
+\[
+\pr{\eta_i}{p_i}-s_i = |\pr{\eta_i}{p_i}-s_i| 
+                     \geq |\pr{\eta_i}{x}-s_i| ~ \forall x \in K,
+\]
+as needed.  
+ 
+\item After shifting $K$ and $\Delta$ by $-c$, we may assume that $0 = c =
+\sum_{i=1}^{n+1} p_i/(n+1)$. We now wish to show that $\Delta \subseteq K
+\subseteq (n+2)\Delta$. Since the first inclusion is by assumption, we may focus
+on proving $K \subseteq (n+2)\Delta$. To begin, we first claim that $\Delta$ can be
+expressed in inequality form as follows:
+\begin{equation}
+\label{eq:4-3}
+\Delta = \set{x \in \R^n: \pr{\eta_i}{x} \geq s_i, \forall i \in [n+1]},
+\end{equation}
+where $s_i$ is as above (after shifting $\Delta$). To see this, let 
+\[
+A = \begin{pmatrix} p_1 & p_2 & \dots & p_{n+1} \\ 1 & 1 & \dots & 1
+\end{pmatrix}.
+\]
+Note that ${\rm conv}(p_1,\dots,p_{n+1})$ has non-zero volume iff
+$p_1,\dots,p_n$ are affinely independent and hence iff $A$ is invertible. From
+here, by definition 
+\[
+x \in {\rm conv}(p_1,\dots,p_{n+1}) \Leftrightarrow A^{-1} \begin{pmatrix} x \\
+1 \end{pmatrix} \geq 0. 
+\]
+To prove the claim it suffices to show that the $i^{th}$ row of $A^{-1}$ is a
+positive multiple of $(\eta_i,-s_i)$. Note that this is true iff
+$\pr{\eta_i}{p_j}-s_i > 0$ for $i = j$ and $= 0$ otherwise. This last property
+follows by construction and hence the claim holds. 
+
+Given the inequality description, to prove that $K \subseteq (n+2)\Delta$ it
+suffices to show that
+\[
+\pr{\eta_i}{x} \geq (n+2)s_i,~ \forall x \in K,~ i \in [n+1].
+\]
+Take $x \in K$ and $i \in [n+1]$. Since $0 = c \in \Delta$ by assumption, we
+have that $s_i \leq 0$ in~\eqref{eq:4-3}. If $\pr{\eta_i}{x} \geq s_i$, the desired
+inequality is trivial since $s_i \leq 0$. Thus, we may assume that
+$\pr{\eta_i}{x} \leq s_i$. In this situation, by part 2 we have that
+\begin{equation}
+\label{eq:4-1}
+\pr{\eta_i}{p_i}-s_i \geq |\pr{\eta_i}{x}-s_i| = s_i-\pr{\eta_i}{x} .   
+\end{equation}
+From here, we see that
+\begin{align}
+0 &= \pr{\eta_i}{c} = \sum_{j \neq i} \pr{\eta_i}{p_j}/(n+1) +
+\pr{\eta_i}{p_i}/(n+1) = s_i n/(n+1) + \pr{\eta}{p_i}/(n+1) \nonumber \\
+  &\Rightarrow \pr{\eta}{p_i} = - s_i n \label{eq:4-2} .
+\end{align}
+
+Combining~\eqref{eq:4-1},~\eqref{eq:4-2}, we have that 
+\[
+\pr{\eta_i}{x}-s_i \geq s_i-\pr{\eta_i}{p_i} = s_i(n+1)
+\Rightarrow \pr{\eta_i}{x} \geq s_i(n+2),  
+\]
+as needed.
+\end{enumerate}
 }
 \end{document}

@@ -83,13 +83,13 @@
 
 \lecture{0}{Review of Convexity and Normed Spaces}{D. Dadush}
 
-In this lecture, we will review useful concepts in convexity and normed spaces.
-As a warning, many of the statements made here will not be proved. The intent
-here is to setup some of the basic language for the remainder of the course. For
-detailed proofs, one is recommended to look up reference books in functional and
-convex analysis. Concepts touched upon here that are important to the course
-will be revisited later, so one should not be too concerned about understanding
-all the material here upon a first reading.
+In these notes, we review useful concepts in convexity and normed spaces. As a
+warning, many of the statements made here will not be proved. For detailed
+proofs, one is recommended to look up reference books in functional and convex
+analysis. The intent here is for these notes to serve as a reference for the
+basic language for the course. The reader may thus skim the material upon first
+reading, and then reread more carefully later during the course if the relevant
+concepts remain unclear. 
 
 \section{Basic Convexity}
 
@@ -1056,16 +1056,16 @@ T = \sum_{i=1}^k w_i \otimes v_i^*,
 \]
 $w_i \in W$, $v_i \in V^*$, it is easy to check that
 \[
-T^* = \sum_{i=1}^k v_i^* \times w_i \in \mathcal{L}(W^*,V^*),
+T^* = \sum_{i=1}^k v_i^* \otimes w_i \in \mathcal{L}(W^*,V^*),
 \] 
 where as usual we identify $w_i \in W$ with an element of $W^{**}$. If $V=W$ and
 the coefficient matrix of $T$ with respect a basis $v_1,\dots,v_n \in V$ is
-$A=(a_ij) \in \R^{n \times n}$, then by the above
+$A=(a_{ij}) \in \R^{n \times n}$, then by the above
 \[
-T^* = \sum_{i,j \in [n]} a_{ji} v_i^* \otimes v_j \in \mathcal{V^*}
+T^* = \sum_{i,j \in [n]} a_{ji} v_i^* \otimes v_j \in \mathcal{L}(V^*)
 \]
 where the coefficient matrix $A^*$ of $T^*$ w.r.t. $v_1^*,\dots,v_n^* \in V^*$
-is $A^* = A^t$, i.e.~the transpose of $A$. Given this, for $T \in
+is $A^* = A^\T$, i.e.~the transpose of $A$. Given this, for $T \in
 \mathcal{L}(V)$ and $V$ finite dimensional, we have that
 \[
 {\rm tr}(T) = {\rm tr}(T^*), \quad \det(T) = \det(T^*),
@@ -1169,7 +1169,7 @@ v_i^\T$, where $u_1,\dots,u_k$ and $v_1,\dots,v_k$ are orthonormal bases of
 subspaces of $\R^m$ and $\R^n$ respectively. Using the tensor product
 representation from the last section, this corresponds to representing $T$ by
 $\sum_{i=1}^k \sigma_i u_i \otimes \pr{\cdot}{v_i}$, where $\pr{\cdot}{\cdot}$
-is the standard inner product on $\R^n$ and $\pr{\cdot}(v_i)(w) = \pr{w}{v_i}$
+is the standard inner product on $\R^n$ and $(\pr{\cdot}{v_i})(w) := \pr{w}{v_i}$
 is the corresponding dual functional in $\R^{n^*}$. Note that this definition
 of singular value also makes sense for operators between arbitrary Hilbert
 spaces, as long as they admit a countable basis.  
@@ -1298,7 +1298,7 @@ normed spaces $X,Y,Z$. Furthermore, for reflexive spaces $X,Y$ (i.e.~all finite
 dimensional spaces), one can verify that $d(X,Y) = d(X^*,Y^*)$ using the
 relation $\|T\|_{\rm op} = \|T^*\|_{\rm op}$. Note that reflexivity ensures that
 if $T: X^* \rightarrow Y^*$ then $T^*: Y^{**} \rightarrow X^{**}$ can be
-canonical identified with an operator from $Y$ to $X$ of the same norm. 
+canonically identified with an operator from $Y$ to $X$ of the same norm. 
 
 Spaces for which the Banach-Mazur distance is finite are called isomorphic. In
 finite dimensions all normed spaces of same dimension are isomorphic, so this
@@ -1308,6 +1308,6 @@ when $X,Y$ are Banach spaces by the open mapping theorem, if $\|T\|_{\rm op} <
 (and hence $X,Y$ are isomorphic). 
 
 \bibliographystyle{alpha}
-\bibliography{lecture-0}
+\bibliography{references}
 
 \end{document}
