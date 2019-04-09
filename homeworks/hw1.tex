@@ -9,7 +9,51 @@
 \ifsolutions
 \homeworksol{1}
 \else
-\homeworkdesc{1}{10/04/18}
+\homeworkdesc{1}{7/05/18}
 \fi
+
+\begin{exercise}[Distance between $\ell_1$ and $\ell_\infty$]~\\
+Construct a linear map $T: \ell_1^n \rightarrow \ell_\infty^n$ satisfying
+$\|T\|_{\rm op}\|T^{-1}\|_{\rm op} = O(\sqrt{n})$. The goal of this exercise is
+to extend the Hadamard based construction in Lecture $1$ from $n$ a power of $2$
+to all $n$.  
+\hint{Use the binary expansion of $n$.}
+\end{exercise}
+
+\begin{exercise}[Little Grothendieck Inequality]
+
+\end{exercise}
+
+\begin{exercise}[Covering with an Asymmetric Convex Body]~\\
+Let $B \subseteq \R^n$ be a convex body. In class, we gave volumetric estimates
+on covering numbers when $B$ is symmetric, which you will extend to the
+asymmetric case here.
+
+\begin{enumerate}
+\item Show that $\E[\vol_n(B \cap (2x-B))/\vol_n(B)] = 1/2^n$, where $x$ is
+sampled uniformly from $B$. \\
+\hint{Show that the above expectation can be expressed as $\vol_n(B)^{-2} \int_B
+\int_B 1[y \in (2x-B)] dy dx$ and exchange the order of integration.} 
+\item Use the above to show that there exists a symmetric convex body $K
+\subseteq \R^n$ and a shift $t \in \R^n$ such that $K+t \subseteq B$ and
+$\vol_n(K) \geq 2^{-n} \vol_n(B)$. \\
+\hint{Note that $2x-B$ is the reflection of $B$ about $x$.}
+\item For $K$ as above and $A \subseteq \R^n$, show that
+\[
+N(A,B) \leq N(A,K) \leq 4^n \vol_n(A+B/2)/\vol_n(B) \text{ .}
+\]  
+In particular, show that $N(B,K) \leq 6^n$ and $N(B-B,B) \leq 30^n$. \\ 
+\hint{Use the packing argument with $B$ replaced by $K$ and compare the bounds.}
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}[Low Rank Approximation of the Identity]
+Let $I_n \in \R^{n \times n}$ denote the $n \times n$ identity matrix. For $\eps
+\in (0,1)$, show that there exists a positive semidefinte matrix $\tilde{I}_n
+\in \R^{n \times n}$ such that $|(I_n-\tilde{I}_n)_{ij}| \leq \eps$, $\forall
+i,j \in [n]$ and ${\rm rank}(\tilde{I}_n) = O(\log n / \eps^2)$. \\
+\hint{Apply the Johnson-Lindenstrauss lemma to the canonical rank factorization
+of $I_n$.}
+\end{exercise}
 
 \end{document}
